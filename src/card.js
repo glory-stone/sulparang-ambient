@@ -1,0 +1,37 @@
+const BASE=new URL('.',import.meta.url);
+// HACS serves JavaScript at /hacsfiles; Home Assistant serves bundled media at /local/community.
+if(BASE.pathname.startsWith('/hacsfiles/'))BASE.pathname=BASE.pathname.replace('/hacsfiles/','/local/community/');
+const TEXT={
+ ko:{sounds:['잔잔한 빗소리','모닥불','브라운 노이즈','핑크 노이즈'],hint:'아이콘을 눌러 켜고 끄세요. 여러 소리를 함께 재생할 수 있습니다.',night:'밤 풍경',day:'낮 풍경',error:'소리를 불러오지 못했습니다. 파일 경로와 연결을 확인하고 다시 눌러주세요.',on:'재생 중',off:'꺼짐'},
+ en:{sounds:['Gentle rain','Fireplace','Brown noise','Pink noise'],hint:'Tap an icon to play or stop. Layer sounds to make your own mix.',night:'Night scene',day:'Day scene',error:'Unable to load audio. Check the files and connection, then try again.',on:'Playing',off:'Off'},
+ zh:{sounds:['轻柔雨声','壁炉','棕噪声','粉红噪声'],hint:'点击图标播放或停止。可以同时混合多个声音。',night:'夜间景色',day:'日间景色',error:'无法加载音频。请检查文件路径和网络后重试。',on:'播放中',off:'已关闭'},
+ ja:{sounds:['穏やかな雨','暖炉','ブラウンノイズ','ピンクノイズ'],hint:'アイコンを押して再生・停止。複数の音を重ねて楽しめます。',night:'夜の風景',day:'昼の風景',error:'音声を読み込めません。ファイルと接続を確認して再試行してください。',on:'再生中',off:'停止中'},
+ es:{sounds:['Lluvia suave','Chimenea','Ruido marrón','Ruido rosa'],hint:'Pulsa un icono para reproducir o detener. Combina varios sonidos.',night:'Paisaje nocturno',day:'Paisaje diurno',error:'No se pudo cargar el audio. Revisa los archivos y la conexión e inténtalo de nuevo.',on:'Reproduciendo',off:'Apagado'}
+};
+const ICONS=['☂','♨','≋','∿'];
+class SulparangAmbient extends HTMLElement{
+ constructor(){super();this.attachShadow({mode:'open'});this.players=new Map();this.levels=[35,35,25,25];this.generations=[0,0,0,0];this.lang='en';this.dark=new Date().getHours()<7||new Date().getHours()>=19;}
+ setConfig(c={}){if(c.language&&!TEXT[c.language])throw Error('language: ko, en, zh, ja, es');this.lang=c.language||'en';this.render();}
+ set hass(h){if(!this.configured&&h?.language){this.lang=TEXT[h.language.split('-')[0]]?h.language.split('-')[0]:'en';this.render();}}
+ connectedCallback(){if(!this.shadowRoot.firstChild)this.render();}
+ disconnectedCallback(){for(let i=0;i<4;i++)this.stop(i);this.ctx?.close();this.ctx=null;}
+ getCardSize(){return 6;}
+ getGridOptions(){return {columns:12,rows:6,min_columns:6,min_rows:5};}
+ static getStubConfig(){return {language:'en'};}
+ setLanguage(lang){if(TEXT[lang]){this.lang=lang;this.render();}}
+ render(){this.configured=true;const t=TEXT[this.lang];this.shadowRoot.innerHTML=`<style>
+ :host{display:block;color:#e8f1f0;font-family:inherit}*{box-sizing:border-box}.card{background:#101e26;border:1px solid #344950;border-radius:22px;overflow:hidden}.top{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;gap:12px}.brand{font-size:17px;letter-spacing:.04em}.brand small{font-size:12px;color:#a6babd;margin-left:10px}.mode{border:1px solid #57747c;border-radius:20px;padding:8px 12px;background:transparent;color:inherit;cursor:pointer;font:inherit;font-size:13px}.content{display:grid;grid-template-columns:1fr 1fr;min-height:315px}.sounds{padding:4px 22px 20px;display:grid;gap:10px}.row{display:grid;grid-template-columns:42px 1fr;gap:10px;align-items:center;padding:10px;background:#182c34;border-radius:12px}.toggle{font-size:26px;background:#20353d;border:1px solid #435861;border-radius:12px;width:42px;height:46px;color:#a0b0b5;cursor:pointer}.toggle[aria-pressed=true]{color:#9ff2d3;border-color:#9ff2d3;background:#21493f}.name{font-size:14px}.controls{display:flex;gap:8px;align-items:center}.controls input{width:100%;min-width:30px;accent-color:#8de0c4;height:28px}.controls output{font-size:12px;min-width:32px;color:#b9cdce}.scene{min-height:260px;overflow:hidden}.scene oas-nature-scene{height:100%;min-height:300px}.hint{margin:0;padding:12px 22px 18px;font-size:13px;color:#b1c6c9;line-height:1.6}.error{color:#ffbbab;padding:0 22px;font-size:14px}.error:empty{display:none}button:focus-visible,input:focus-visible{outline:3px solid #e8c386;outline-offset:3px}@media(max-width:570px){.content{grid-template-columns:1fr}.scene{height:220px;order:-1}.scene oas-nature-scene{min-height:220px}.sounds{padding-top:15px}.brand small{display:none}}
+ </style><div class="card"><div class="top"><div class="brand">術波浪 Sulparang <small>AMBIENT · FREE</small></div><button class="mode">${this.dark?t.day:t.night}</button></div><div class="content"><div class="sounds">${t.sounds.map((name,i)=>`<div class="row"><button class="toggle" data-i="${i}" aria-label="${name}" aria-pressed="${this.players.has(i)}">${ICONS[i]}</button><div><div class="name">${name}</div><div class="controls"><input data-i="${i}" aria-label="${name} volume" type="range" min="0" max="100" value="${this.levels[i]}"><output>${this.levels[i]}%</output></div></div></div>`).join('')}</div><div class="scene"><oas-nature-scene></oas-nature-scene></div></div><p class="error" role="status"></p><p class="hint">${t.hint}</p></div>`;
+ this.shadowRoot.querySelectorAll('.toggle').forEach(b=>b.onclick=()=>this.toggle(Number(b.dataset.i)));
+ this.shadowRoot.querySelectorAll('input').forEach(el=>el.oninput=()=>{const i=Number(el.dataset.i);this.levels[i]=Number(el.value);el.nextElementSibling.textContent=el.value+'%';const p=this.players.get(i);if(p?.audio)p.audio.volume=this.levels[i]/100;if(p?.gain)p.gain.gain.setTargetAtTime(this.levels[i]/100*.35,this.ctx.currentTime,.06);});
+ this.shadowRoot.querySelector('.mode').onclick=()=>{this.dark=!this.dark;this.render();};this.paint();
+ }
+ paint(){const ids=['rain','fire','brown','pink'];this.shadowRoot.querySelector('oas-nature-scene')?.show?.(this.dark,[...this.players.keys()].map(i=>ids[i]));this.shadowRoot.querySelectorAll('.toggle').forEach(b=>b.setAttribute('aria-pressed',String(this.players.has(Number(b.dataset.i)))));}
+ stop(i){this.generations[i]++;const p=this.players.get(i);if(p?.audio){p.audio.pause();p.audio.removeAttribute('src');p.audio.load();}if(p?.source){try{p.source.stop();}catch{}p.source.disconnect();p.gain.disconnect();}this.players.delete(i);this.paint();}
+ async toggle(i){if(this.players.has(i)){this.stop(i);return;}const generation=++this.generations[i];const p={};this.players.set(i,p);this.paint();this.shadowRoot.querySelector('.error').textContent='';
+ try{if(i<2){const a=new Audio(new URL(`${i===0?'rain':'fire'}.mp3`,BASE));p.audio=a;a.loop=true;a.volume=this.levels[i]/100;await a.play();if(this.generations[i]!==generation)a.pause();}
+ else{this.ctx??=new(window.AudioContext||window.webkitAudioContext)();await this.ctx.resume();if(this.generations[i]!==generation)return;const ctx=this.ctx,buffer=ctx.createBuffer(1,ctx.sampleRate*8,ctx.sampleRate),d=buffer.getChannelData(0);let last=0,b0=0,b1=0,b2=0;for(let n=0;n<d.length;n++){const w=Math.random()*2-1;if(i===2){last=(last+.02*w)/1.02;d[n]=last*3.5;}else{b0=.99765*b0+w*.099046;b1=.963*b1+w*.2965164;b2=.57*b2+w*1.0526913;d[n]=(b0+b1+b2+w*.1848)*.18;}}p.source=ctx.createBufferSource();p.source.buffer=buffer;p.source.loop=true;p.gain=ctx.createGain();p.gain.gain.value=this.levels[i]/100*.35;p.source.connect(p.gain).connect(ctx.destination);p.source.start();}}
+ catch(e){if(this.generations[i]===generation){this.stop(i);this.shadowRoot.querySelector('.error').textContent=TEXT[this.lang].error;}}this.paint();}
+}
+if(!customElements.get('sulparang-ambient'))customElements.define('sulparang-ambient',SulparangAmbient);
+window.customCards=window.customCards||[];window.customCards.push({type:'sulparang-ambient',name:'Sulparang Ambient',description:'Four sounds, independent volume and day/night scenery. Free edition.',preview:true});

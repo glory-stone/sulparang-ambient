@@ -1,0 +1,18 @@
+Sulparang Ambient Free 0.1.0 — audio sources
+
+rain.mp3: silencyo, Silencyo_CC_Rain on Window_Reverberant room_Large Perspective.aif
+https://freesound.org/people/silencyo/sounds/81818/
+License: CC0 1.0 Universal
+
+fire.mp3: Red Library: Fire, USC Cinema / Sunset Editorial Collection
+https://archive.org/details/Red_Library_Fire
+License: CC0 1.0 Universal
+
+CC0 legal code: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+MP3 distributions used by the prior OAS project:
+https://raw.githubusercontent.com/twtrubiks/moonseal/main/public/audio/rain.mp3
+https://raw.githubusercontent.com/twtrubiks/moonseal/main/public/audio/fireplace.mp3
+
+Brown and pink noise are generated in the browser; no external recording.
+Nature scenery adapted from the original OAS kiosk project for Sulparang.
+No Home Assistant code or Home Assistant logo is included.
