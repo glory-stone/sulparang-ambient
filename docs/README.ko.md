@@ -1,4 +1,4 @@
-# Sulparang Ambient Free 0.1.1
+# Sulparang Ambient Free 0.1.2
 
 ## HACS에서 저장소 주소로 설치
 
@@ -64,7 +64,7 @@ Samba 또는 Studio Code Server 등 파일을 복사할 수 있는 도구로 아
 프로필에서 고급 모드를 켜고 설정 → 대시보드 → 우측 상단 메뉴 → 리소스를 엽니다. 아래 URL을 추가하고 유형은 JavaScript 모듈을 선택합니다.
 
 ```
-/local/sulparang-ambient/sulparang-ambient.js?v=0.1.1
+/local/sulparang-ambient/sulparang-ambient.js?v=0.1.2
 ```
 
 ## 4. 대시보드에 카드 추가

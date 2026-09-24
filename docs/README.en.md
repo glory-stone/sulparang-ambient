@@ -1,4 +1,4 @@
-# Sulparang Ambient Free 0.1.1
+# Sulparang Ambient Free 0.1.2
 
 ## Install with a repository URL in HACS
 
@@ -64,7 +64,7 @@ Use Samba, Studio Code Server or another file-transfer tool to copy the whole fo
 Enable Advanced mode in your profile. Open Settings → Dashboards → top-right menu → Resources. Add this URL and choose JavaScript module.
 
 ```
-/local/sulparang-ambient/sulparang-ambient.js?v=0.1.1
+/local/sulparang-ambient/sulparang-ambient.js?v=0.1.2
 ```
 
 ## 4. Add the card

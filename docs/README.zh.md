@@ -1,4 +1,4 @@
-# Sulparang Ambient Free 0.1.1
+# Sulparang Ambient Free 0.1.2
 
 ## 通过 HACS 仓库地址安装
 
@@ -64,7 +64,7 @@ language: zh
 在个人资料中启用高级模式。打开设置 → 仪表盘 → 右上角菜单 → 资源，添加以下 URL，类型选择 JavaScript 模块。
 
 ```
-/local/sulparang-ambient/sulparang-ambient.js?v=0.1.1
+/local/sulparang-ambient/sulparang-ambient.js?v=0.1.2
 ```
 
 ## 4. 添加卡片

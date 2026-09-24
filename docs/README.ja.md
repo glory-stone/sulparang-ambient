@@ -1,4 +1,4 @@
-# Sulparang Ambient Free 0.1.1
+# Sulparang Ambient Free 0.1.2
 
 ## HACS にリポジトリ URL を追加してインストール
 
@@ -64,7 +64,7 @@ Samba や Studio Code Server などでフォルダー全体を下記にコピー
 プロフィールで詳細モードを有効にし、設定 → ダッシュボード → 右上メニュー → リソースを開きます。下記 URL を追加し、JavaScript モジュールを選びます。
 
 ```
-/local/sulparang-ambient/sulparang-ambient.js?v=0.1.1
+/local/sulparang-ambient/sulparang-ambient.js?v=0.1.2
 ```
 
 ## 4. カードを追加
