@@ -2,7 +2,11 @@
 
 ## HACS에서 저장소 주소로 설치
 
-HACS가 설치된 Home Assistant에서 무료판을 추가하세요. 유형은 대시보드(Dashboard)입니다.
+술파랑 무료판은 HACS용 대시보드 카드입니다. Home Assistant의 왼쪽 메뉴 → HACS → ⋮ → 사용자 지정 저장소에서 추가하고, 유형은 대시보드(Dashboard)를 선택하세요.
+
+> 설정 → 앱 → 저장소에 이 주소를 넣으면 ‘is not a valid app repository’ 오류가 납니다. 앱(애드온) 저장소와 HACS 저장소는 서로 다릅니다.
+
+[HACS에서 술파랑 열기](https://my.home-assistant.io/redirect/hacs_repository/?owner=glory-stone&repository=sulparang-ambient&category=plugin) — HACS 설치·설정을 먼저 완료하세요. 버튼을 누른 뒤 설치할 Home Assistant 서버 주소를 확인하세요.
 
 HACS가 없다면 공식 설치 안내부터 확인하세요. [HACS](https://www.hacs.xyz/docs/use/download/download/)
 

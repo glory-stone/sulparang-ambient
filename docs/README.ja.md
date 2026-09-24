@@ -2,7 +2,11 @@
 
 ## HACS にリポジトリ URL を追加してインストール
 
-HACS 設定済みの Home Assistant に無料版を追加します。種類は Dashboard を選びます。
+Sulparang 無料版は HACS 用ダッシュボードカードです。Home Assistant のサイドバーで HACS → ⋮ → Custom repositories を開き、種類は Dashboard を選びます。
+
+> 設定 → アプリ → リポジトリにこの URL を追加すると ‘is not a valid app repository’ と表示されます。アプリ（アドオン）と HACS のリポジトリは異なります。
+
+[HACS で Sulparang を開く](https://my.home-assistant.io/redirect/hacs_repository/?owner=glory-stone&repository=sulparang-ambient&category=plugin) — 先に HACS のインストールと設定を完了してください。クリック後、インストール先の Home Assistant アドレスを確認してください。
 
 HACS が未設定の場合は、先に公式ガイドをご覧ください。 [HACS](https://www.hacs.xyz/docs/use/download/download/)
 

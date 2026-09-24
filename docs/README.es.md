@@ -2,7 +2,11 @@
 
 ## Instala con la URL del repositorio en HACS
 
-Añade la edición gratuita a Home Assistant con HACS configurado. Selecciona el tipo Dashboard.
+Sulparang Free es una tarjeta de panel para HACS. En la barra lateral de Home Assistant, abre HACS → ⋮ → Custom repositories y selecciona el tipo Dashboard.
+
+> Añadir esta URL en Ajustes → Aplicaciones → Repositorios provoca el error ‘is not a valid app repository’. Los repositorios de aplicaciones (complementos) y los de HACS son diferentes.
+
+[Abrir Sulparang en HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=glory-stone&repository=sulparang-ambient&category=plugin) — Primero instala y configura HACS. Tras pulsar el botón, comprueba que la dirección de Home Assistant sea la del servidor donde quieres instalarlo.
 
 Si aún no tienes HACS, sigue primero su guía oficial. [HACS](https://www.hacs.xyz/docs/use/download/download/)
 

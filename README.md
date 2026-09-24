@@ -14,6 +14,12 @@ A free Home Assistant dashboard card for mixing ambient sounds with day/night na
 
 ## Install with HACS
 
+Sulparang Free is a HACS dashboard card. Open HACS in the Home Assistant sidebar → ⋮ → Custom repositories, and select Dashboard as the type.
+
+> Adding this URL under Settings → Apps → Repositories causes ‘is not a valid app repository’. App (add-on) repositories and HACS repositories are different.
+
+[Open Sulparang in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=glory-stone&repository=sulparang-ambient&category=plugin) — Install and configure HACS first. After clicking, check that the Home Assistant address is the server where you want to install it.
+
 1. Install and configure [HACS](https://www.hacs.xyz/docs/use/download/download/) if needed.
 2. Open **HACS → ⋮ → Custom repositories**.
 3. Add `https://github.com/glory-stone/sulparang-ambient` with type **Dashboard**.

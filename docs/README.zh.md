@@ -2,7 +2,11 @@
 
 ## 通过 HACS 仓库地址安装
 
-在已安装 HACS 的 Home Assistant 中添加免费版。仓库类型请选择 Dashboard（仪表板）。
+Sulparang 免费版是 HACS 仪表板卡片。请在 Home Assistant 侧边栏打开 HACS → ⋮ → Custom repositories（自定义仓库），类型选择 Dashboard（仪表板）。
+
+> 在设置 → 应用 → 仓库中添加此地址会出现 ‘is not a valid app repository’ 错误。应用（附加组件）仓库与 HACS 仓库不同。
+
+[在 HACS 中打开 Sulparang](https://my.home-assistant.io/redirect/hacs_repository/?owner=glory-stone&repository=sulparang-ambient&category=plugin) — 请先安装并配置 HACS。点击后，请确认 Home Assistant 地址是您要安装的服务器。
 
 尚未安装 HACS？请先按照官方指南进行设置。 [HACS](https://www.hacs.xyz/docs/use/download/download/)
 
