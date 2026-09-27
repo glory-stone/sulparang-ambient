@@ -76,6 +76,7 @@ class SulparangNatureScene extends HTMLElement {
       .ember{animation:ember 7s ease-out infinite}.ember.two{animation-delay:-3.5s}
       .fireflies{animation:float 14s ease-in-out infinite alternate}
       .color-cloud{animation:aurora 23s ease-in-out infinite alternate;transform-origin:center}
+      .motion-disabled *{animation:none!important;transition:none!important}
       .motion-paused *{animation-play-state:paused!important}
       @keyframes aurora{from{transform:translate(-14px,5px) rotate(-5deg) scale(1);opacity:.5}to{transform:translate(16px,-8px) rotate(4deg) scale(1.12);opacity:.85}}
       @keyframes drift{from{transform:translateX(-20px);opacity:.35}to{transform:translateX(18px);opacity:.65}}
@@ -93,7 +94,7 @@ class SulparangNatureScene extends HTMLElement {
       @keyframes ember{0%{transform:translate(0,0);opacity:0}25%{opacity:.8}100%{transform:translate(12px,-52px);opacity:0}}
       @keyframes float{from{transform:translate(-4px,4px);opacity:.4}to{transform:translate(6px,-8px);opacity:.9}}
       @keyframes clouds{from{transform:translateX(-15px)}to{transform:translateX(20px)}}
-      @media(prefers-reduced-motion:reduce){.scene *{animation:none!important;transition:none!important}}
+      @media(prefers-reduced-motion:reduce){.scene:not(.motion-enabled) *{animation:none!important;transition:none!important}}
       @media(max-width:900px){.columns{gap:12px;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
         .row{grid-template-columns:44px 94px minmax(50px,1fr) 33px;gap:6px;padding:2px 7px}.name{font-size:13px}}
       @media(max-width:760px){ha-card{padding:10px}.columns{height:auto;max-height:none;grid-template-columns:1fr}
@@ -102,9 +103,11 @@ class SulparangNatureScene extends HTMLElement {
       :host{display:block;height:100%;width:100%}.scene{width:100%;height:100%;border:0;border-radius:0}
     </style><div class="scene" data-mode="day">${this.sceneSvg()}</div>`;
   }
-  show(dark,selected=[]){
+  show(dark,selected=[],motion){
     const scene=this.shadowRoot.querySelector('.scene');
     scene.dataset.mode=dark?'night':'day';
+    scene.classList.toggle('motion-enabled',motion===true);
+    scene.classList.toggle('motion-disabled',motion===false);
     for(const el of scene.querySelectorAll('[data-effect]'))el.classList.toggle('visible',selected.includes(el.dataset.effect));
   }
   pause(value){this.shadowRoot.querySelector('.scene').classList.toggle('motion-paused',value);}
@@ -166,10 +169,10 @@ class SulparangNatureScene extends HTMLElement {
     // Generate once so HA state updates do not reshuffle the rain or restart its motion.
     if(this.rainMarkup)return this.rainMarkup;
     const between=(min,max)=>min+Math.random()*(max-min);
-    this.rainMarkup=Array.from({length:44},()=>{
-      const x=between(4,588),length=between(8,27),slope=between(.08,.25);
-      const duration=between(3.1,6.7),phase=Math.random(),drift=-560*slope;
-      const style=`--rain-duration:${duration.toFixed(3)}s;--rain-delay:${(-duration*phase).toFixed(3)}s;--rain-drift:${drift.toFixed(2)}px;--rain-opacity:${between(.38,.88).toFixed(2)};--rain-static-x:${(drift*phase).toFixed(2)}px;--rain-static-y:${(560*phase).toFixed(2)}px`;
+    this.rainMarkup=Array.from({length:96},()=>{
+      const x=between(4,588),length=between(6,17),slope=between(.08,.25);
+      const duration=between(2.8,5.4),phase=Math.random(),drift=-560*slope;
+      const style=`--rain-duration:${duration.toFixed(3)}s;--rain-delay:${(-duration*phase).toFixed(3)}s;--rain-drift:${drift.toFixed(2)}px;--rain-opacity:${between(.45,.85).toFixed(2)};--rain-static-x:${(drift*phase).toFixed(2)}px;--rain-static-y:${(560*phase).toFixed(2)}px`;
       return `<path class="rain-drop" d="M${x.toFixed(2)} -32l${(-length*slope).toFixed(2)} ${length.toFixed(2)}" stroke-width="${between(.5,1).toFixed(2)}" style="${style}"/>`;
     }).join('');
     return this.rainMarkup;
@@ -216,7 +219,7 @@ class SulparangNatureScene extends HTMLElement {
         <g class="flame"><path fill="#dc833e" d="M364 402c-8-13 5-19 5-31 14 14 1 18 12 10 1 12 13 14 4 23-7 5-15 3-21-2Z"/><path fill="#f8d085" d="M370 403c-5-7 5-11 4-18 10 9 6 13 9 17-3 5-9 4-13 1Z"/></g>
         <circle class="ember" cx="372" cy="376" r="1.2" fill="#c98842"/><circle class="ember two" cx="380" cy="375" r="1" fill="#c98842"/></g>
       ${this.cricketSvg()}
-      <g data-effect="rain" class="effect" stroke="#3c778b" stroke-opacity=".4">${rain}</g>
+      <g data-effect="rain" class="effect" stroke="#3c778b" stroke-opacity=".65">${rain}</g>
     </svg>`;
   }
   nightSvg(){
@@ -266,7 +269,7 @@ class SulparangNatureScene extends HTMLElement {
         <g class="flame"><path fill="#ec9a55" d="M364 402c-8-13 5-19 5-31 14 14 1 18 12 10 1 12 13 14 4 23-7 5-15 3-21-2Z"/><path fill="#f7ce83" d="M370 403c-5-7 5-11 4-18 10 9 6 13 9 17-3 5-9 4-13 1Z"/></g>
         <circle class="ember" cx="372" cy="376" r="1.2" fill="#ffce90"/><circle class="ember two" cx="380" cy="375" r="1" fill="#ffbe73"/></g>
       ${this.cricketSvg()}
-      <g data-effect="rain" class="effect" stroke="#bbd6df" stroke-opacity=".35">${rain}</g>
+      <g data-effect="rain" class="effect" stroke="#bbd6df" stroke-opacity=".58">${rain}</g>
     </svg>`;
   }
 

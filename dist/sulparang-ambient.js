@@ -76,6 +76,7 @@ class SulparangNatureScene extends HTMLElement {
       .ember{animation:ember 7s ease-out infinite}.ember.two{animation-delay:-3.5s}
       .fireflies{animation:float 14s ease-in-out infinite alternate}
       .color-cloud{animation:aurora 23s ease-in-out infinite alternate;transform-origin:center}
+      .motion-disabled *{animation:none!important;transition:none!important}
       .motion-paused *{animation-play-state:paused!important}
       @keyframes aurora{from{transform:translate(-14px,5px) rotate(-5deg) scale(1);opacity:.5}to{transform:translate(16px,-8px) rotate(4deg) scale(1.12);opacity:.85}}
       @keyframes drift{from{transform:translateX(-20px);opacity:.35}to{transform:translateX(18px);opacity:.65}}
@@ -93,7 +94,7 @@ class SulparangNatureScene extends HTMLElement {
       @keyframes ember{0%{transform:translate(0,0);opacity:0}25%{opacity:.8}100%{transform:translate(12px,-52px);opacity:0}}
       @keyframes float{from{transform:translate(-4px,4px);opacity:.4}to{transform:translate(6px,-8px);opacity:.9}}
       @keyframes clouds{from{transform:translateX(-15px)}to{transform:translateX(20px)}}
-      @media(prefers-reduced-motion:reduce){.scene *{animation:none!important;transition:none!important}}
+      @media(prefers-reduced-motion:reduce){.scene:not(.motion-enabled) *{animation:none!important;transition:none!important}}
       @media(max-width:900px){.columns{gap:12px;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
         .row{grid-template-columns:44px 94px minmax(50px,1fr) 33px;gap:6px;padding:2px 7px}.name{font-size:13px}}
       @media(max-width:760px){ha-card{padding:10px}.columns{height:auto;max-height:none;grid-template-columns:1fr}
@@ -102,9 +103,11 @@ class SulparangNatureScene extends HTMLElement {
       :host{display:block;height:100%;width:100%}.scene{width:100%;height:100%;border:0;border-radius:0}
     </style><div class="scene" data-mode="day">${this.sceneSvg()}</div>`;
   }
-  show(dark,selected=[]){
+  show(dark,selected=[],motion){
     const scene=this.shadowRoot.querySelector('.scene');
     scene.dataset.mode=dark?'night':'day';
+    scene.classList.toggle('motion-enabled',motion===true);
+    scene.classList.toggle('motion-disabled',motion===false);
     for(const el of scene.querySelectorAll('[data-effect]'))el.classList.toggle('visible',selected.includes(el.dataset.effect));
   }
   pause(value){this.shadowRoot.querySelector('.scene').classList.toggle('motion-paused',value);}
@@ -166,10 +169,10 @@ class SulparangNatureScene extends HTMLElement {
     // Generate once so HA state updates do not reshuffle the rain or restart its motion.
     if(this.rainMarkup)return this.rainMarkup;
     const between=(min,max)=>min+Math.random()*(max-min);
-    this.rainMarkup=Array.from({length:44},()=>{
-      const x=between(4,588),length=between(8,27),slope=between(.08,.25);
-      const duration=between(3.1,6.7),phase=Math.random(),drift=-560*slope;
-      const style=`--rain-duration:${duration.toFixed(3)}s;--rain-delay:${(-duration*phase).toFixed(3)}s;--rain-drift:${drift.toFixed(2)}px;--rain-opacity:${between(.38,.88).toFixed(2)};--rain-static-x:${(drift*phase).toFixed(2)}px;--rain-static-y:${(560*phase).toFixed(2)}px`;
+    this.rainMarkup=Array.from({length:96},()=>{
+      const x=between(4,588),length=between(6,17),slope=between(.08,.25);
+      const duration=between(2.8,5.4),phase=Math.random(),drift=-560*slope;
+      const style=`--rain-duration:${duration.toFixed(3)}s;--rain-delay:${(-duration*phase).toFixed(3)}s;--rain-drift:${drift.toFixed(2)}px;--rain-opacity:${between(.45,.85).toFixed(2)};--rain-static-x:${(drift*phase).toFixed(2)}px;--rain-static-y:${(560*phase).toFixed(2)}px`;
       return `<path class="rain-drop" d="M${x.toFixed(2)} -32l${(-length*slope).toFixed(2)} ${length.toFixed(2)}" stroke-width="${between(.5,1).toFixed(2)}" style="${style}"/>`;
     }).join('');
     return this.rainMarkup;
@@ -216,7 +219,7 @@ class SulparangNatureScene extends HTMLElement {
         <g class="flame"><path fill="#dc833e" d="M364 402c-8-13 5-19 5-31 14 14 1 18 12 10 1 12 13 14 4 23-7 5-15 3-21-2Z"/><path fill="#f8d085" d="M370 403c-5-7 5-11 4-18 10 9 6 13 9 17-3 5-9 4-13 1Z"/></g>
         <circle class="ember" cx="372" cy="376" r="1.2" fill="#c98842"/><circle class="ember two" cx="380" cy="375" r="1" fill="#c98842"/></g>
       ${this.cricketSvg()}
-      <g data-effect="rain" class="effect" stroke="#3c778b" stroke-opacity=".4">${rain}</g>
+      <g data-effect="rain" class="effect" stroke="#3c778b" stroke-opacity=".65">${rain}</g>
     </svg>`;
   }
   nightSvg(){
@@ -266,7 +269,7 @@ class SulparangNatureScene extends HTMLElement {
         <g class="flame"><path fill="#ec9a55" d="M364 402c-8-13 5-19 5-31 14 14 1 18 12 10 1 12 13 14 4 23-7 5-15 3-21-2Z"/><path fill="#f7ce83" d="M370 403c-5-7 5-11 4-18 10 9 6 13 9 17-3 5-9 4-13 1Z"/></g>
         <circle class="ember" cx="372" cy="376" r="1.2" fill="#ffce90"/><circle class="ember two" cx="380" cy="375" r="1" fill="#ffbe73"/></g>
       ${this.cricketSvg()}
-      <g data-effect="rain" class="effect" stroke="#bbd6df" stroke-opacity=".35">${rain}</g>
+      <g data-effect="rain" class="effect" stroke="#bbd6df" stroke-opacity=".58">${rain}</g>
     </svg>`;
   }
 
@@ -286,7 +289,7 @@ const TEXT={
 const ICONS=["<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 3 4 10m10-8-3 8m10-6-3 7M8 14l-3 7m12-7-3 7\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M13 2c1 4-3 5.5-3 9-1.6-.8-2.5-2.3-2.5-4C5.5 9.5 4 12 4 15a8 8 0 0 0 16 0c0-3.2-1.8-6-4-8 .2 2-.6 3.4-1.8 4.3C14.8 7.5 17 5.8 13 2Z\"/><path d=\"M12 12c.5 2.5-3 3.7-3 6a3 3 0 0 0 6 0c0-1.8-1.3-3.4-3-6Z\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"5.5\" rx=\"4\" ry=\"2.5\"/><ellipse cx=\"11.5\" cy=\"11.5\" rx=\"6\" ry=\"3\"/><ellipse cx=\"12\" cy=\"18.5\" rx=\"8.5\" ry=\"3.5\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 5c-4-5-9-1-6 3-6 1-5 7 0 7-1 5 5 7 6 2 1 5 7 3 6-2 5 0 6-6 0-7 3-4-2-8-6-3Z\"/><circle cx=\"12\" cy=\"11\" r=\"2.5\"/></svg>"];
 class SulparangAmbient extends HTMLElement{
  constructor(){super();this.attachShadow({mode:'open'});this.players=new Map();this.levels=[35,35,25,25];this.generations=[0,0,0,0];this.locale='en';this.dark=new Date().getHours()<7||new Date().getHours()>=19;}
- setConfig(c={}){if(c.language&&!TEXT[c.language])throw Error('language: ko, en, zh, ja, es');this.locale=c.language||'en';this.fullscreen=c.fullscreen===true;this.render();}
+ setConfig(c={}){if(c.language&&!TEXT[c.language])throw Error('language: ko, en, zh, ja, es');this.locale=c.language||'en';this.fullscreen=c.fullscreen===true;this.motion=typeof c.motion==='boolean'?c.motion:undefined;this.render();}
  set hass(h){if(!this.configured&&h?.language){this.locale=TEXT[h.language.split('-')[0]]?h.language.split('-')[0]:'en';this.render();}}
  connectedCallback(){if(!this.shadowRoot.firstChild)this.render();}
  disconnectedCallback(){for(let i=0;i<4;i++)this.stop(i);this.ctx?.close();this.ctx=null;}
@@ -306,12 +309,12 @@ class SulparangAmbient extends HTMLElement{
  .scene{position:relative;min-width:0;width:100%;aspect-ratio:4/3;align-self:start;overflow:hidden;border:0;border-radius:18px}.scene sulparang-nature-scene{position:absolute;inset:0;width:100%;height:100%;min-height:0}
  .hint{margin:0;padding:18px 24px 24px;font-size:13px;color:#b1c6c9;line-height:1.6}.error{color:#ffbbab;padding:0 24px;font-size:14px}.error:empty{display:none}button:focus-visible,input:focus-visible{outline:3px solid #e8c386;outline-offset:3px}
  @container(max-width:740px){.top{padding:18px 16px}.content{grid-template-columns:1fr;gap:16px;padding:0 16px}.scene{order:-1;border-radius:16px}.sounds{gap:10px;grid-template-rows:repeat(4,minmax(76px,auto))}.row{padding:10px 12px}.brand small{display:none}.hint{padding:16px}.error{padding:0 16px}}
- </style><div class="card ${this.fullscreen?'fullscreen':''}" data-version="0.1.3"><div class="top"><div class="brand">術波浪 Sulparang <small>AMBIENT · FREE</small></div><button class="mode">${this.dark?t.day:t.night}</button></div><div class="content"><div class="sounds">${t.sounds.map((name,i)=>`<div class="row"><button class="toggle" data-i="${i}" aria-label="${name}" aria-pressed="${this.players.has(i)}">${ICONS[i]}</button><div><div class="name">${name}</div><div class="controls"><input data-i="${i}" aria-label="${name} volume" type="range" min="0" max="100" value="${this.levels[i]}"><output>${this.levels[i]}%</output></div></div></div>`).join('')}</div><div class="scene"><sulparang-nature-scene></sulparang-nature-scene></div></div><p class="error" role="status"></p><p class="hint">${t.hint}</p></div>`;
+ </style><div class="card ${this.fullscreen?'fullscreen':''}" data-version="0.1.4"><div class="top"><div class="brand">術波浪 Sulparang <small>AMBIENT · FREE</small></div><button class="mode">${this.dark?t.day:t.night}</button></div><div class="content"><div class="sounds">${t.sounds.map((name,i)=>`<div class="row"><button class="toggle" data-i="${i}" aria-label="${name}" aria-pressed="${this.players.has(i)}">${ICONS[i]}</button><div><div class="name">${name}</div><div class="controls"><input data-i="${i}" aria-label="${name} volume" type="range" min="0" max="100" value="${this.levels[i]}"><output>${this.levels[i]}%</output></div></div></div>`).join('')}</div><div class="scene"><sulparang-nature-scene></sulparang-nature-scene></div></div><p class="error" role="status"></p><p class="hint">${t.hint}</p></div>`;
  this.shadowRoot.querySelectorAll('.toggle').forEach(b=>b.onclick=()=>this.toggle(Number(b.dataset.i)));
  this.shadowRoot.querySelectorAll('input').forEach(el=>el.oninput=()=>{const i=Number(el.dataset.i);this.levels[i]=Number(el.value);el.nextElementSibling.textContent=el.value+'%';const p=this.players.get(i);if(p?.audio)p.audio.volume=this.levels[i]/100;if(p?.gain)p.gain.gain.setTargetAtTime(this.levels[i]/100*.35,this.ctx.currentTime,.06);});
  this.shadowRoot.querySelector('.mode').onclick=()=>{this.dark=!this.dark;this.render();};this.paint();
  }
- paint(){const ids=['rain','fire','brown','pink'];this.shadowRoot.querySelector('sulparang-nature-scene')?.show?.(this.dark,[...this.players.keys()].map(i=>ids[i]));this.shadowRoot.querySelectorAll('.toggle').forEach(b=>b.setAttribute('aria-pressed',String(this.players.has(Number(b.dataset.i)))));}
+ paint(){const ids=['rain','fire','brown','pink'];this.shadowRoot.querySelector('sulparang-nature-scene')?.show?.(this.dark,[...this.players.keys()].map(i=>ids[i]),this.motion);this.shadowRoot.querySelectorAll('.toggle').forEach(b=>b.setAttribute('aria-pressed',String(this.players.has(Number(b.dataset.i)))));}
  stop(i){this.generations[i]++;const p=this.players.get(i);if(p?.audio){p.audio.pause();p.audio.removeAttribute('src');p.audio.load();}if(p?.source){try{p.source.stop();}catch{}p.source.disconnect();p.gain.disconnect();}this.players.delete(i);this.paint();}
  async toggle(i){if(this.players.has(i)){this.stop(i);return;}const generation=++this.generations[i];const p={};this.players.set(i,p);this.paint();this.shadowRoot.querySelector('.error').textContent='';
  try{if(i<2){const a=new Audio(new URL(`${i===0?'rain':'fire'}.mp3`,BASE));p.audio=a;a.loop=true;a.volume=this.levels[i]/100;await a.play();if(this.generations[i]!==generation)a.pause();}

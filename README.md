@@ -6,7 +6,7 @@
 
 A free Home Assistant dashboard card for mixing ambient sounds with day/night nature scenes.
 
-[Live demo](https://sulparang.com/?lang=en#experience) · [Website](https://sulparang.com/) · [Manual-install ZIP](https://sulparang.com/downloads/sulparang-ambient-free-0.1.3.zip)
+[Live demo](https://sulparang.com/?lang=en#experience) · [Website](https://sulparang.com/) · [Manual-install ZIP](https://sulparang.com/downloads/sulparang-ambient-free-0.1.4.zip)
 
 ## Installation guides
 
@@ -52,10 +52,10 @@ system monitoring, payments or paid features are included.
 
 ## Manual installation
 
-Download the [installation ZIP](https://sulparang.com/downloads/sulparang-ambient-free-0.1.3.zip),
+Download the [installation ZIP](https://sulparang.com/downloads/sulparang-ambient-free-0.1.4.zip),
 or copy all three files from `dist/` into `/config/www/sulparang-ambient/`.
 Keep `rain.mp3` and `fire.mp3` beside `sulparang-ambient.js`.
-Register `/local/sulparang-ambient/sulparang-ambient.js?v=0.1.3` as a JavaScript module,
+Register `/local/sulparang-ambient/sulparang-ambient.js?v=0.1.4` as a JavaScript module,
 then add the card configuration above. See the translated guides for full instructions.
 
 For a full-screen panel dashboard, add `fullscreen: true` to the card configuration.
@@ -72,3 +72,5 @@ Both MP3 files are kept in `dist/` so HACS can download them alongside the card.
 Code: [MIT](LICENSE). Audio recordings: CC0; see [third-party notices](THIRD-PARTY-NOTICES.txt).
 The code license does not grant trademark rights. Sulparang is an independent community product,
 not affiliated with Home Assistant.
+
+Animations follow the device reduced-motion preference. Add `motion: true` to explicitly enable them, or `motion: false` to disable them.

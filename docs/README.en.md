@@ -1,4 +1,4 @@
-# Sulparang Ambient Free 0.1.3
+# Sulparang Ambient Free 0.1.4
 
 ## Install with a repository URL in HACS
 
@@ -68,7 +68,7 @@ Use Samba, Studio Code Server or another file-transfer tool to copy the whole fo
 Enable Advanced mode in your profile. Open Settings → Dashboards → top-right menu → Resources. Add this URL and choose JavaScript module.
 
 ```
-/local/sulparang-ambient/sulparang-ambient.js?v=0.1.3
+/local/sulparang-ambient/sulparang-ambient.js?v=0.1.4
 ```
 
 ## 4. Add the card
@@ -101,3 +101,5 @@ Check the device volume, muted browser tab and output device. The MP3 files must
 ### Can I control a remote speaker?
 
 This free edition plays in the browser you are using. Remote speakers, radio, hourly chimes and system monitoring are not included.
+
+Animations follow the device reduced-motion preference. Add `motion: true` to explicitly enable them, or `motion: false` to disable them.

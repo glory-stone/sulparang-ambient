@@ -1,4 +1,4 @@
-# Sulparang Ambient Free 0.1.3
+# Sulparang Ambient Free 0.1.4
 
 ## HACS にリポジトリ URL を追加してインストール
 
@@ -68,7 +68,7 @@ Samba や Studio Code Server などでフォルダー全体を下記にコピー
 プロフィールで詳細モードを有効にし、設定 → ダッシュボード → 右上メニュー → リソースを開きます。下記 URL を追加し、JavaScript モジュールを選びます。
 
 ```
-/local/sulparang-ambient/sulparang-ambient.js?v=0.1.3
+/local/sulparang-ambient/sulparang-ambient.js?v=0.1.4
 ```
 
 ## 4. カードを追加
@@ -101,3 +101,5 @@ language: ja
 ### 別のスピーカーを操作できますか？
 
 無料版は操作中のブラウザーで再生します。遠隔スピーカー、ラジオ、定時チャイム、システム監視は含みません。
+
+アニメーションは端末の動きを減らす設定に従います。カードに `motion: true` を追加すると有効、`motion: false` で無効になります。

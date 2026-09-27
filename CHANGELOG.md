@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.4 — 2026-09-27
+
+- Add denser, varied rain streaks with clearer day/night contrast.
+- Support an explicit motion setting; retain the device reduced-motion preference when unspecified.
+
 ## 0.1.3 — 2026-09-27
 
 - Match the four Free sound icons to Pro: rain, flame, stones and flower.

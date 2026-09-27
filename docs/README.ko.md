@@ -1,4 +1,4 @@
-# Sulparang Ambient Free 0.1.3
+# Sulparang Ambient Free 0.1.4
 
 ## HACS에서 저장소 주소로 설치
 
@@ -68,7 +68,7 @@ Samba 또는 Studio Code Server 등 파일을 복사할 수 있는 도구로 아
 프로필에서 고급 모드를 켜고 설정 → 대시보드 → 우측 상단 메뉴 → 리소스를 엽니다. 아래 URL을 추가하고 유형은 JavaScript 모듈을 선택합니다.
 
 ```
-/local/sulparang-ambient/sulparang-ambient.js?v=0.1.3
+/local/sulparang-ambient/sulparang-ambient.js?v=0.1.4
 ```
 
 ## 4. 대시보드에 카드 추가
@@ -101,3 +101,5 @@ language: ko
 ### 다른 기기의 스피커로 재생할 수 있나요?
 
 이 무료판은 조작 중인 브라우저에서 재생합니다. 원격 스피커 제어, 라디오, 정시 알람, 시스템 점검 기능은 포함하지 않습니다.
+
+애니메이션은 기기의 동작 줄이기 설정을 따릅니다. 카드에 `motion: true`를 추가하면 직접 켤 수 있고, `motion: false`는 끕니다.
