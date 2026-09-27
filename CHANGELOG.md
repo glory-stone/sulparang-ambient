@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.5 — 2026-09-27
+
+- Add the Sulparang S-wave mark before the wordmark, including a compact mobile header.
+
 ## 0.1.4 — 2026-09-27
 
 - Add denser, varied rain streaks with clearer day/night contrast.
