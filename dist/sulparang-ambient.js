@@ -180,7 +180,7 @@ class SulparangNatureScene extends HTMLElement {
       const x=i<6?i*20-12:388+(i-6)*22,y=291+(i%3)*15,s=.65+(i%4)*.13;
       return `<use href="#day-tree" transform="translate(${x} ${y}) scale(${s})"/>`;
     }).join('');
-    return `<svg class="landscape day-art" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    return `<svg class="landscape day-art" viewBox="0 62.5 500 375" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <defs>
         <linearGradient id="day-sky" x2="0" y2="1"><stop stop-color="#abcfd9"/><stop offset=".7" stop-color="#e1e8d1"/><stop offset="1" stop-color="#e9e8c6"/></linearGradient>
         <linearGradient id="day-lake" x2="0" y2="1"><stop stop-color="#95c4bb"/><stop offset="1" stop-color="#6caa9a"/></linearGradient>
@@ -200,11 +200,16 @@ class SulparangNatureScene extends HTMLElement {
       <path fill="url(#day-lake)" d="M0 309q242-20 500 0v191H0Z"/>
       <path fill="#86aa82" d="M0 275q68-15 146 47l-17 12-129 15zm500 6q-62-13-135 44l58 27 77-7Z"/>
       <path class="mist" fill="#e4ebd5" opacity=".2" d="M-25 303q140-14 286 0t269-4v5q-251 11-555 9Z"/>
+      <g class="woodland-ground">
+        <path fill="#6d9978" d="M0 313C53 305 116 336 154 379C130 391 121 403 150 421C112 446 57 443 0 472Z"/>
+        <path fill="#739a78" d="M500 307C455 303 397 334 347 376C367 390 398 399 369 422C414 442 454 445 500 464Z"/>
+        <path fill="#8cac83" d="M0 329C48 326 99 345 129 373C91 358 53 353 0 362ZM500 324C459 320 415 345 377 372C423 354 465 352 500 357Z"/>
+      </g>
       <g>${trees}</g>
       ${this.forestSvg()}
       <g style="--wave-color:#e4efe0">${this.oceanSvg()}</g>
       <g data-effect="stream" class="effect"><path class="river-light" fill="#d3e8d9" opacity=".65" d="M232 312q-105 29 16 47t-66 33q-85 19 36 49t-116 59h43q179-31 95-61t-14-40q203-29 35-44t-16-43Z"/></g>
-      <path fill="#5d9170" d="M500 373q-48-13-78 6t-78 16l-32 22q107-9 188 48Zm-500 19q67-17 106 10l-34 22 92 35-164 29Z"/>
+      <path fill="#5d9170" d="M500 379C456 368 425 380 407 392C389 404 364 402 340 412C381 418 411 438 433 457L500 478ZM0 393C44 379 88 393 110 409C86 415 75 421 82 429C114 439 139 449 166 469L0 493Z"/>
       <g fill="#c4d3a2"><path d="m28 408 5-21 3 21 9-13-4 21Zm441-6 1-21 7 19 9-10-4 20Z"/><g class="grass-light"><circle cx="45" cy="406" r="2.3"/><circle cx="64" cy="397" r="2"/><circle cx="463" cy="412" r="2.2"/><circle cx="485" cy="418" r="2"/></g></g>
       <g data-effect="fire" class="effect"><ellipse class="fire-light" cx="378" cy="395" rx="64" ry="43" fill="url(#day-fire)"/>
         <path stroke="#866346" stroke-width="5" stroke-linecap="round" d="m362 408 25-4m-22-2 25 8"/>
@@ -221,7 +226,7 @@ class SulparangNatureScene extends HTMLElement {
       const x=i<11?i*13-18:375+(i-11)*15,y=281+(i%4)*9,s=.6+(i%5)*.14;
       return `<use href="#pine" transform="translate(${x} ${y}) scale(${s})"/>`;
     }).join('');
-    return `<svg class="landscape night-art" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    return `<svg class="landscape night-art" viewBox="0 62.5 500 375" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <defs>
         <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#071322"/><stop offset=".53" stop-color="#163348"/><stop offset="1" stop-color="#235362"/></linearGradient>
         <linearGradient id="lake" x2="0" y2="1"><stop stop-color="#244d5b"/><stop offset="1" stop-color="#0b1d2b"/></linearGradient>
@@ -246,11 +251,16 @@ class SulparangNatureScene extends HTMLElement {
       <path fill="url(#lake)" d="M0 302h500v198H0z"/>
       <path class="mist" fill="url(#mist)" d="M-40 288Q90 272 264 286T540 282v19Q292 294-40 309Z"/>
       <path fill="#102c37" d="M0 272q60 6 89 41l65 34-74 9-80-3zm500-5q-59 17-109 57l-25 19 77 10 57-6Z"/>
+      <g class="woodland-ground">
+        <path fill="#163743" d="M0 310C50 304 112 334 154 376C135 392 117 402 150 423C107 444 55 449 0 471Z"/>
+        <path fill="#173843" d="M500 307C451 305 395 335 346 375C371 391 392 404 368 425C413 443 458 452 500 466Z"/>
+        <path fill="#204550" d="M0 331C47 325 98 347 127 374C85 359 45 356 0 364ZM500 326C459 324 414 347 377 374C421 358 459 354 500 361Z"/>
+      </g>
       <g fill="#0c2631" opacity=".85">${pines}</g>
       ${this.forestSvg()}
       <g style="--wave-color:#9ccdcc">${this.oceanSvg()}</g>
       <g data-effect="stream" class="effect"><path class="river-light" fill="#72bcca" opacity=".4" d="M232 312q-105 29 16 47t-66 33q-85 19 36 49t-116 59h43q179-31 95-61t-14-40q203-29 35-44t-16-43Z"/></g>
-      <path fill="#081e29" d="M500 373q-48-13-78 6t-78 16l-32 22q107-9 188 48Zm-500 19q67-17 106 10l-34 22 92 35-164 29Z"/>
+      <path fill="#081e29" d="M500 379C456 368 425 380 407 392C389 404 364 402 340 412C381 418 411 438 433 457L500 478ZM0 393C44 379 88 393 110 409C86 415 75 421 82 429C114 439 139 449 166 469L0 493Z"/>
       <g data-effect="fire" class="effect"><ellipse class="fire-light" cx="378" cy="395" rx="92" ry="65" fill="url(#fire-halo)"/>
         <path stroke="#866346" stroke-width="5" stroke-linecap="round" d="m362 408 25-4m-22-2 25 8"/>
         <g class="flame"><path fill="#ec9a55" d="M364 402c-8-13 5-19 5-31 14 14 1 18 12 10 1 12 13 14 4 23-7 5-15 3-21-2Z"/><path fill="#f7ce83" d="M370 403c-5-7 5-11 4-18 10 9 6 13 9 17-3 5-9 4-13 1Z"/></g>
@@ -273,10 +283,10 @@ const TEXT={
  ja:{sounds:['穏やかな雨','暖炉','ブラウンノイズ','ピンクノイズ'],hint:'アイコンを押して再生・停止。複数の音を重ねて楽しめます。',night:'夜の風景',day:'昼の風景',error:'音声を読み込めません。ファイルと接続を確認して再試行してください。',on:'再生中',off:'停止中'},
  es:{sounds:['Lluvia suave','Chimenea','Ruido marrón','Ruido rosa'],hint:'Pulsa un icono para reproducir o detener. Combina varios sonidos.',night:'Paisaje nocturno',day:'Paisaje diurno',error:'No se pudo cargar el audio. Revisa los archivos y la conexión e inténtalo de nuevo.',on:'Reproduciendo',off:'Apagado'}
 };
-const ICONS=['☂','♨','≋','∿'];
+const ICONS=["<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 3 4 10m10-8-3 8m10-6-3 7M8 14l-3 7m12-7-3 7\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M13 2c1 4-3 5.5-3 9-1.6-.8-2.5-2.3-2.5-4C5.5 9.5 4 12 4 15a8 8 0 0 0 16 0c0-3.2-1.8-6-4-8 .2 2-.6 3.4-1.8 4.3C14.8 7.5 17 5.8 13 2Z\"/><path d=\"M12 12c.5 2.5-3 3.7-3 6a3 3 0 0 0 6 0c0-1.8-1.3-3.4-3-6Z\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"5.5\" rx=\"4\" ry=\"2.5\"/><ellipse cx=\"11.5\" cy=\"11.5\" rx=\"6\" ry=\"3\"/><ellipse cx=\"12\" cy=\"18.5\" rx=\"8.5\" ry=\"3.5\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 5c-4-5-9-1-6 3-6 1-5 7 0 7-1 5 5 7 6 2 1 5 7 3 6-2 5 0 6-6 0-7 3-4-2-8-6-3Z\"/><circle cx=\"12\" cy=\"11\" r=\"2.5\"/></svg>"];
 class SulparangAmbient extends HTMLElement{
  constructor(){super();this.attachShadow({mode:'open'});this.players=new Map();this.levels=[35,35,25,25];this.generations=[0,0,0,0];this.locale='en';this.dark=new Date().getHours()<7||new Date().getHours()>=19;}
- setConfig(c={}){if(c.language&&!TEXT[c.language])throw Error('language: ko, en, zh, ja, es');this.locale=c.language||'en';this.render();}
+ setConfig(c={}){if(c.language&&!TEXT[c.language])throw Error('language: ko, en, zh, ja, es');this.locale=c.language||'en';this.fullscreen=c.fullscreen===true;this.render();}
  set hass(h){if(!this.configured&&h?.language){this.locale=TEXT[h.language.split('-')[0]]?h.language.split('-')[0]:'en';this.render();}}
  connectedCallback(){if(!this.shadowRoot.firstChild)this.render();}
  disconnectedCallback(){for(let i=0;i<4;i++)this.stop(i);this.ctx?.close();this.ctx=null;}
@@ -285,8 +295,18 @@ class SulparangAmbient extends HTMLElement{
  static getStubConfig(){return {language:'en'};}
  setLanguage(lang){if(TEXT[lang]){this.locale=lang;this.render();}}
  render(){this.configured=true;const t=TEXT[this.locale];this.shadowRoot.innerHTML=`<style>
- :host{display:block;container-type:inline-size;color:#e8f1f0;font-family:inherit}*{box-sizing:border-box}.card{background:#101e26;border:1px solid #344950;border-radius:22px;overflow:hidden}.top{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;gap:12px}.brand{font-size:17px;letter-spacing:.04em}.brand small{font-size:12px;color:#a6babd;margin-left:10px}.mode{border:1px solid #57747c;border-radius:20px;padding:8px 12px;background:transparent;color:inherit;cursor:pointer;font:inherit;font-size:13px}.content{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);min-height:315px}.sounds{min-width:0;padding:4px 22px 20px;display:grid;gap:10px}.row{display:grid;grid-template-columns:42px minmax(0,1fr);gap:10px;align-items:center;padding:10px;background:#182c34;border-radius:12px}.toggle{font-size:26px;background:#20353d;border:1px solid #435861;border-radius:12px;width:42px;height:46px;color:#a0b0b5;cursor:pointer}.toggle[aria-pressed=true]{color:#9ff2d3;border-color:#9ff2d3;background:#21493f}.name{font-size:14px}.controls{display:flex;gap:8px;align-items:center}.controls input{width:100%;min-width:30px;accent-color:#8de0c4;height:28px}.controls output{font-size:12px;min-width:32px;color:#b9cdce}.scene{min-width:0;min-height:260px;overflow:hidden}.scene sulparang-nature-scene{height:100%;min-height:300px}.hint{margin:0;padding:12px 22px 18px;font-size:13px;color:#b1c6c9;line-height:1.6}.error{color:#ffbbab;padding:0 22px;font-size:14px}.error:empty{display:none}button:focus-visible,input:focus-visible{outline:3px solid #e8c386;outline-offset:3px}@container(max-width:740px){.content{grid-template-columns:1fr}.scene{height:220px;order:-1}.scene sulparang-nature-scene{min-height:220px}.sounds{padding-top:15px}.brand small{display:none}}
- </style><div class="card"><div class="top"><div class="brand">術波浪 Sulparang <small>AMBIENT · FREE</small></div><button class="mode">${this.dark?t.day:t.night}</button></div><div class="content"><div class="sounds">${t.sounds.map((name,i)=>`<div class="row"><button class="toggle" data-i="${i}" aria-label="${name}" aria-pressed="${this.players.has(i)}">${ICONS[i]}</button><div><div class="name">${name}</div><div class="controls"><input data-i="${i}" aria-label="${name} volume" type="range" min="0" max="100" value="${this.levels[i]}"><output>${this.levels[i]}%</output></div></div></div>`).join('')}</div><div class="scene"><sulparang-nature-scene></sulparang-nature-scene></div></div><p class="error" role="status"></p><p class="hint">${t.hint}</p></div>`;
+ :host{display:block;width:100%;min-height:100%;margin:0;container-type:inline-size;background:#101e26;color:#e8f1f0;font-family:inherit}*{box-sizing:border-box}
+ .card{width:100%;min-height:100%;margin:0;background:#101e26;border:0;border-radius:0;box-shadow:none;--ha-card-border-width:0;--ha-card-border-radius:0;overflow:hidden}.card.fullscreen{min-height:calc(100dvh - 56px)}
+ .top{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;gap:12px}.brand{font-size:17px;letter-spacing:.04em}.brand small{font-size:12px;color:#a6babd;margin-left:10px}
+ .mode{border:1px solid #57747c;border-radius:20px;padding:8px 12px;background:transparent;color:inherit;cursor:pointer;font:inherit;font-size:13px}
+ .content{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:24px;padding:4px 24px 0;align-items:stretch}
+ .sounds{min-width:0;display:grid;grid-template-rows:repeat(4,minmax(76px,1fr));gap:12px}.row{display:grid;grid-template-columns:42px minmax(0,1fr);gap:12px;align-items:center;padding:14px;background:#182c34;border-radius:12px}
+ .toggle{display:grid;place-items:center;background:#20353d;border:1px solid #435861;border-radius:10px;width:42px;height:46px;padding:0;color:#a0b0b5;cursor:pointer;touch-action:manipulation}.toggle svg{display:block;width:26px;height:26px}.toggle[aria-pressed=true]{color:#9ff2d3;border-color:#9ff2d3;background:#21493f}
+ .name{font-size:14px;line-height:1.4}.controls{display:flex;gap:8px;align-items:center}.controls input{width:100%;min-width:30px;accent-color:#8de0c4;height:28px;touch-action:pan-y}.controls output{font-size:12px;min-width:32px;color:#b9cdce}
+ .scene{position:relative;min-width:0;width:100%;aspect-ratio:4/3;align-self:start;overflow:hidden;border:0;border-radius:18px}.scene sulparang-nature-scene{position:absolute;inset:0;width:100%;height:100%;min-height:0}
+ .hint{margin:0;padding:18px 24px 24px;font-size:13px;color:#b1c6c9;line-height:1.6}.error{color:#ffbbab;padding:0 24px;font-size:14px}.error:empty{display:none}button:focus-visible,input:focus-visible{outline:3px solid #e8c386;outline-offset:3px}
+ @container(max-width:740px){.top{padding:18px 16px}.content{grid-template-columns:1fr;gap:16px;padding:0 16px}.scene{order:-1;border-radius:16px}.sounds{gap:10px;grid-template-rows:repeat(4,minmax(76px,auto))}.row{padding:10px 12px}.brand small{display:none}.hint{padding:16px}.error{padding:0 16px}}
+ </style><div class="card ${this.fullscreen?'fullscreen':''}" data-version="0.1.3"><div class="top"><div class="brand">術波浪 Sulparang <small>AMBIENT · FREE</small></div><button class="mode">${this.dark?t.day:t.night}</button></div><div class="content"><div class="sounds">${t.sounds.map((name,i)=>`<div class="row"><button class="toggle" data-i="${i}" aria-label="${name}" aria-pressed="${this.players.has(i)}">${ICONS[i]}</button><div><div class="name">${name}</div><div class="controls"><input data-i="${i}" aria-label="${name} volume" type="range" min="0" max="100" value="${this.levels[i]}"><output>${this.levels[i]}%</output></div></div></div>`).join('')}</div><div class="scene"><sulparang-nature-scene></sulparang-nature-scene></div></div><p class="error" role="status"></p><p class="hint">${t.hint}</p></div>`;
  this.shadowRoot.querySelectorAll('.toggle').forEach(b=>b.onclick=()=>this.toggle(Number(b.dataset.i)));
  this.shadowRoot.querySelectorAll('input').forEach(el=>el.oninput=()=>{const i=Number(el.dataset.i);this.levels[i]=Number(el.value);el.nextElementSibling.textContent=el.value+'%';const p=this.players.get(i);if(p?.audio)p.audio.volume=this.levels[i]/100;if(p?.gain)p.gain.gain.setTargetAtTime(this.levels[i]/100*.35,this.ctx.currentTime,.06);});
  this.shadowRoot.querySelector('.mode').onclick=()=>{this.dark=!this.dark;this.render();};this.paint();

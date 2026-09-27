@@ -180,7 +180,7 @@ class SulparangNatureScene extends HTMLElement {
       const x=i<6?i*20-12:388+(i-6)*22,y=291+(i%3)*15,s=.65+(i%4)*.13;
       return `<use href="#day-tree" transform="translate(${x} ${y}) scale(${s})"/>`;
     }).join('');
-    return `<svg class="landscape day-art" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    return `<svg class="landscape day-art" viewBox="0 62.5 500 375" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <defs>
         <linearGradient id="day-sky" x2="0" y2="1"><stop stop-color="#abcfd9"/><stop offset=".7" stop-color="#e1e8d1"/><stop offset="1" stop-color="#e9e8c6"/></linearGradient>
         <linearGradient id="day-lake" x2="0" y2="1"><stop stop-color="#95c4bb"/><stop offset="1" stop-color="#6caa9a"/></linearGradient>
@@ -200,11 +200,16 @@ class SulparangNatureScene extends HTMLElement {
       <path fill="url(#day-lake)" d="M0 309q242-20 500 0v191H0Z"/>
       <path fill="#86aa82" d="M0 275q68-15 146 47l-17 12-129 15zm500 6q-62-13-135 44l58 27 77-7Z"/>
       <path class="mist" fill="#e4ebd5" opacity=".2" d="M-25 303q140-14 286 0t269-4v5q-251 11-555 9Z"/>
+      <g class="woodland-ground">
+        <path fill="#6d9978" d="M0 313C53 305 116 336 154 379C130 391 121 403 150 421C112 446 57 443 0 472Z"/>
+        <path fill="#739a78" d="M500 307C455 303 397 334 347 376C367 390 398 399 369 422C414 442 454 445 500 464Z"/>
+        <path fill="#8cac83" d="M0 329C48 326 99 345 129 373C91 358 53 353 0 362ZM500 324C459 320 415 345 377 372C423 354 465 352 500 357Z"/>
+      </g>
       <g>${trees}</g>
       ${this.forestSvg()}
       <g style="--wave-color:#e4efe0">${this.oceanSvg()}</g>
       <g data-effect="stream" class="effect"><path class="river-light" fill="#d3e8d9" opacity=".65" d="M232 312q-105 29 16 47t-66 33q-85 19 36 49t-116 59h43q179-31 95-61t-14-40q203-29 35-44t-16-43Z"/></g>
-      <path fill="#5d9170" d="M500 373q-48-13-78 6t-78 16l-32 22q107-9 188 48Zm-500 19q67-17 106 10l-34 22 92 35-164 29Z"/>
+      <path fill="#5d9170" d="M500 379C456 368 425 380 407 392C389 404 364 402 340 412C381 418 411 438 433 457L500 478ZM0 393C44 379 88 393 110 409C86 415 75 421 82 429C114 439 139 449 166 469L0 493Z"/>
       <g fill="#c4d3a2"><path d="m28 408 5-21 3 21 9-13-4 21Zm441-6 1-21 7 19 9-10-4 20Z"/><g class="grass-light"><circle cx="45" cy="406" r="2.3"/><circle cx="64" cy="397" r="2"/><circle cx="463" cy="412" r="2.2"/><circle cx="485" cy="418" r="2"/></g></g>
       <g data-effect="fire" class="effect"><ellipse class="fire-light" cx="378" cy="395" rx="64" ry="43" fill="url(#day-fire)"/>
         <path stroke="#866346" stroke-width="5" stroke-linecap="round" d="m362 408 25-4m-22-2 25 8"/>
@@ -221,7 +226,7 @@ class SulparangNatureScene extends HTMLElement {
       const x=i<11?i*13-18:375+(i-11)*15,y=281+(i%4)*9,s=.6+(i%5)*.14;
       return `<use href="#pine" transform="translate(${x} ${y}) scale(${s})"/>`;
     }).join('');
-    return `<svg class="landscape night-art" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    return `<svg class="landscape night-art" viewBox="0 62.5 500 375" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <defs>
         <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#071322"/><stop offset=".53" stop-color="#163348"/><stop offset="1" stop-color="#235362"/></linearGradient>
         <linearGradient id="lake" x2="0" y2="1"><stop stop-color="#244d5b"/><stop offset="1" stop-color="#0b1d2b"/></linearGradient>
@@ -246,11 +251,16 @@ class SulparangNatureScene extends HTMLElement {
       <path fill="url(#lake)" d="M0 302h500v198H0z"/>
       <path class="mist" fill="url(#mist)" d="M-40 288Q90 272 264 286T540 282v19Q292 294-40 309Z"/>
       <path fill="#102c37" d="M0 272q60 6 89 41l65 34-74 9-80-3zm500-5q-59 17-109 57l-25 19 77 10 57-6Z"/>
+      <g class="woodland-ground">
+        <path fill="#163743" d="M0 310C50 304 112 334 154 376C135 392 117 402 150 423C107 444 55 449 0 471Z"/>
+        <path fill="#173843" d="M500 307C451 305 395 335 346 375C371 391 392 404 368 425C413 443 458 452 500 466Z"/>
+        <path fill="#204550" d="M0 331C47 325 98 347 127 374C85 359 45 356 0 364ZM500 326C459 324 414 347 377 374C421 358 459 354 500 361Z"/>
+      </g>
       <g fill="#0c2631" opacity=".85">${pines}</g>
       ${this.forestSvg()}
       <g style="--wave-color:#9ccdcc">${this.oceanSvg()}</g>
       <g data-effect="stream" class="effect"><path class="river-light" fill="#72bcca" opacity=".4" d="M232 312q-105 29 16 47t-66 33q-85 19 36 49t-116 59h43q179-31 95-61t-14-40q203-29 35-44t-16-43Z"/></g>
-      <path fill="#081e29" d="M500 373q-48-13-78 6t-78 16l-32 22q107-9 188 48Zm-500 19q67-17 106 10l-34 22 92 35-164 29Z"/>
+      <path fill="#081e29" d="M500 379C456 368 425 380 407 392C389 404 364 402 340 412C381 418 411 438 433 457L500 478ZM0 393C44 379 88 393 110 409C86 415 75 421 82 429C114 439 139 449 166 469L0 493Z"/>
       <g data-effect="fire" class="effect"><ellipse class="fire-light" cx="378" cy="395" rx="92" ry="65" fill="url(#fire-halo)"/>
         <path stroke="#866346" stroke-width="5" stroke-linecap="round" d="m362 408 25-4m-22-2 25 8"/>
         <g class="flame"><path fill="#ec9a55" d="M364 402c-8-13 5-19 5-31 14 14 1 18 12 10 1 12 13 14 4 23-7 5-15 3-21-2Z"/><path fill="#f7ce83" d="M370 403c-5-7 5-11 4-18 10 9 6 13 9 17-3 5-9 4-13 1Z"/></g>

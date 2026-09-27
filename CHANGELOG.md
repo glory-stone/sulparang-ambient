@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.3 — 2026-09-27
+
+- Match the four Free sound icons to Pro: rain, flame, stones and flower.
+- Remove the outer border and rounded card frame; support a full-height panel background with fullscreen: true.
+- Add equal outer spacing and a rounded 4:3 landscape frame, retaining the 40:60 desktop split and single-column mobile layout.
+- Extend layered shoreline land beneath the trees in both day and night scenery.
+
 ## 0.1.2 — 2026-09-25
 
 - Give sound controls 40% and scenery 60% of the two-column layout.
