@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.7 — 2026-09-28
+
+- Recalculate the Home Assistant toolbar width when the sidebar is shown or hidden.
+- Keep sound controls and the scenery panel aligned when the available dashboard width changes.
+
+
 ## 0.1.6 — 2026-09-28
 
 - Hold the Home Assistant dashboard title for 800 ms to show or hide the menu. Enter or Space offers the same keyboard action.

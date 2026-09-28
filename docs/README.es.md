@@ -1,4 +1,4 @@
-# Sulparang Ambient Free 0.1.6
+# Sulparang Ambient Free 0.1.7
 
 ## Instala con la URL del repositorio en HACS
 
@@ -68,7 +68,7 @@ Usa Samba, Studio Code Server u otra herramienta para copiar la carpeta completa
 Activa el modo avanzado en tu perfil. Abre Ajustes → Paneles → menú superior derecho → Recursos. Añade esta URL y selecciona Módulo JavaScript.
 
 ```
-/local/sulparang-ambient/sulparang-ambient.js?v=0.1.6
+/local/sulparang-ambient/sulparang-ambient.js?v=0.1.7
 ```
 
 ## 4. Añade la tarjeta

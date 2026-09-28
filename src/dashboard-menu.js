@@ -13,7 +13,7 @@ export function attachSulparangMenu(card){
  const style=(parent,css)=>{const el=document.createElement('style');el.textContent=css;parent.append(el);styles.push(el);return el;};
  const sidebar=style(main.shadowRoot,''),layout=style(drawer.shadowRoot,''),header=style(root,'.main-title{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation;cursor:pointer}.main-title:focus-visible{outline:2px solid var(--primary-color);outline-offset:4px}');
  const apply=()=>{
-  sidebar.textContent=visible?'ha-sidebar{display:block!important}':'ha-sidebar{display:none!important}';
+  sidebar.textContent=visible?'ha-sidebar{display:block!important}ha-drawer{--ha-sidebar-width:var(--app-drawer-width,256px)!important;--ha-top-app-bar-width:calc(100% - var(--app-drawer-width,256px))!important}@media(max-width:870px){ha-drawer{--ha-sidebar-width:0px!important;--ha-top-app-bar-width:100%!important}}':'ha-sidebar{display:none!important}ha-drawer{--ha-sidebar-width:0px!important;--ha-top-app-bar-width:100%!important}';
   layout.textContent=visible?'.sidebar-shell{display:block!important}.app-content{padding-inline-start:var(--app-drawer-width,256px)!important}@media(max-width:870px){.app-content{padding-inline-start:0!important}}':'.sidebar-shell{display:none!important}.app-content{padding-inline-start:0!important}';
   const title=root.querySelector('.main-title');if(!title)return;
   if(!titles.has(title))titles.set(title,Object.fromEntries(['role','tabindex','aria-expanded','title'].map(k=>[k,title.getAttribute(k)])));
