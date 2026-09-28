@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.6 — 2026-09-28
+
+- Hold the Home Assistant dashboard title for 800 ms to show or hide the menu. Enter or Space offers the same keyboard action.
+- Restore Home Assistant chrome when leaving the dashboard; ignore short taps and dragged/cancelled gestures.
+
+
 ## 0.1.5 — 2026-09-27
 
 - Add the Sulparang S-wave mark before the wordmark, including a compact mobile header.

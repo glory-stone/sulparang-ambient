@@ -276,6 +276,45 @@ class SulparangNatureScene extends HTMLElement {
 }
 if(!customElements.get('sulparang-nature-scene'))customElements.define('sulparang-nature-scene',SulparangNatureScene);
 
+// Only owns the Home Assistant chrome while this dashboard card is connected.
+function attachSulparangMenu(card){
+ let root=null,main=null,drawer=null;
+ for(let node=card;node;node=node.parentElement||node.getRootNode()?.host){
+  if(node.localName==='hui-root')root=node.shadowRoot;
+  if(node.localName==='home-assistant-main')main=node;
+  if(node.localName==='ha-drawer')drawer=node;
+ }
+ if(!root||!main?.shadowRoot||!drawer?.shadowRoot)return ()=>{};
+ const key=Symbol.for('sulparang.dashboard-menu.v1');
+ if(main[key]){main[key].users.add(card);return ()=>main[key]?.release(card);}
+ const users=new Set([card]),styles=[],titles=new Map();let visible=false,press=null,suppressUntil=0;
+ const style=(parent,css)=>{const el=document.createElement('style');el.textContent=css;parent.append(el);styles.push(el);return el;};
+ const sidebar=style(main.shadowRoot,''),layout=style(drawer.shadowRoot,''),header=style(root,'.main-title{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation;cursor:pointer}.main-title:focus-visible{outline:2px solid var(--primary-color);outline-offset:4px}');
+ const apply=()=>{
+  sidebar.textContent=visible?'ha-sidebar{display:block!important}':'ha-sidebar{display:none!important}';
+  layout.textContent=visible?'.sidebar-shell{display:block!important}.app-content{padding-inline-start:var(--app-drawer-width,256px)!important}@media(max-width:870px){.app-content{padding-inline-start:0!important}}':'.sidebar-shell{display:none!important}.app-content{padding-inline-start:0!important}';
+  const title=root.querySelector('.main-title');if(!title)return;
+  if(!titles.has(title))titles.set(title,Object.fromEntries(['role','tabindex','aria-expanded','title'].map(k=>[k,title.getAttribute(k)])));
+  title.setAttribute('role','button');title.setAttribute('tabindex','0');title.setAttribute('aria-expanded',String(visible));
+  title.title='Long press / Enter: menu · 길게 누르기: 메뉴';
+ };
+ const toggle=()=>{visible=!visible;apply();if(visible){main.dispatchEvent(new CustomEvent('hass-dock-sidebar',{detail:{dock:'docked'},bubbles:true,composed:true}));if(drawer.getAttribute('type')==='modal')main.dispatchEvent(new CustomEvent('hass-toggle-menu',{bubbles:true,composed:true}));}};
+ const target=e=>e.composedPath().find(el=>el?.matches?.('.main-title')&&el.getRootNode()===root);
+ const cancel=()=>{if(press)clearTimeout(press.timer);press=null;};
+ const down=e=>{if(!target(e)||e.button!==0||e.isPrimary===false){cancel();return;}cancel();press={id:e.pointerId,x:e.clientX,y:e.clientY};press.timer=setTimeout(()=>{press=null;suppressUntil=Date.now()+1200;toggle();},800);};
+ const move=e=>{if(press&&e.pointerId===press.id&&Math.hypot(e.clientX-press.x,e.clientY-press.y)>12)cancel();};
+ const click=e=>{if(target(e)&&Date.now()<suppressUntil){e.preventDefault();e.stopImmediatePropagation();suppressUntil=0;}};
+ const context=e=>{if(target(e))e.preventDefault();};
+ const keydown=e=>{if(target(e)&&(e.key==='Enter'||e.key===' ')&&!e.repeat){e.preventDefault();cancel();toggle();}};
+ const listeners={pointerdown:down,pointermove:move,pointerup:cancel,pointercancel:cancel,click,contextmenu:context,keydown};
+ for(const [event,fn]of Object.entries(listeners))document.addEventListener(event,fn,true);
+ window.addEventListener('blur',cancel);
+ const observer=new MutationObserver(()=>{if(!root.querySelector('.main-title')?.hasAttribute('aria-expanded'))apply();});
+ observer.observe(root,{childList:true,subtree:true});apply();
+ const release=owner=>{users.delete(owner);if(users.size)return;cancel();observer.disconnect();for(const [event,fn]of Object.entries(listeners))document.removeEventListener(event,fn,true);window.removeEventListener('blur',cancel);styles.forEach(el=>el.remove());for(const [el,attrs]of titles)for(const [k,v]of Object.entries(attrs)){if(v===null)el.removeAttribute(k);else el.setAttribute(k,v);}delete main[key];};
+ main[key]={users,release};return ()=>release(card);
+}
+
 const BASE=new URL('.',import.meta.url);
 // HACS serves JavaScript at /hacsfiles; Home Assistant serves bundled media at /local/community.
 if(BASE.pathname.startsWith('/hacsfiles/'))BASE.pathname=BASE.pathname.replace('/hacsfiles/','/local/community/');
@@ -291,8 +330,8 @@ class SulparangAmbient extends HTMLElement{
  constructor(){super();this.attachShadow({mode:'open'});this.players=new Map();this.levels=[35,35,25,25];this.generations=[0,0,0,0];this.locale='en';this.dark=new Date().getHours()<7||new Date().getHours()>=19;}
  setConfig(c={}){if(c.language&&!TEXT[c.language])throw Error('language: ko, en, zh, ja, es');this.locale=c.language||'en';this.fullscreen=c.fullscreen===true;this.motion=typeof c.motion==='boolean'?c.motion:undefined;this.render();}
  set hass(h){if(!this.configured&&h?.language){this.locale=TEXT[h.language.split('-')[0]]?h.language.split('-')[0]:'en';this.render();}}
- connectedCallback(){if(!this.shadowRoot.firstChild)this.render();}
- disconnectedCallback(){for(let i=0;i<4;i++)this.stop(i);this.ctx?.close();this.ctx=null;}
+ connectedCallback(){this.menuCleanup?.();this.menuCleanup=attachSulparangMenu(this);if(!this.shadowRoot.firstChild)this.render();}
+ disconnectedCallback(){this.menuCleanup?.();this.menuCleanup=null;for(let i=0;i<4;i++)this.stop(i);this.ctx?.close();this.ctx=null;}
  getCardSize(){return 6;}
  getGridOptions(){return {columns:12,rows:6,min_columns:6,min_rows:5};}
  static getStubConfig(){return {language:'en'};}
@@ -309,7 +348,7 @@ class SulparangAmbient extends HTMLElement{
  .scene{position:relative;min-width:0;width:100%;aspect-ratio:4/3;align-self:start;overflow:hidden;border:0;border-radius:18px}.scene sulparang-nature-scene{position:absolute;inset:0;width:100%;height:100%;min-height:0}
  .hint{margin:0;padding:18px 24px 24px;font-size:13px;color:#b1c6c9;line-height:1.6}.error{color:#ffbbab;padding:0 24px;font-size:14px}.error:empty{display:none}button:focus-visible,input:focus-visible{outline:3px solid #e8c386;outline-offset:3px}
  @container(max-width:740px){.top{padding:18px 16px}.content{grid-template-columns:1fr;gap:16px;padding:0 16px}.scene{order:-1;border-radius:16px}.sounds{gap:10px;grid-template-rows:repeat(4,minmax(76px,auto))}.row{padding:10px 12px}.brand small{display:none}.brand-mark{width:30px;height:30px;flex-basis:30px}.wordmark{font-size:15px}.hint{padding:16px}.error{padding:0 16px}}
- </style><div class="card ${this.fullscreen?'fullscreen':''}" data-version="0.1.5"><div class="top"><div class="brand"><svg class="brand-mark" viewBox="296 282 662 662" aria-hidden="true"><path fill="currentColor" d="M329 568C347 423 477 314 626 314C773 314 894 410 906 541C912 598 880 651 827 666C773 682 727 661 691 621C648 574 616 530 565 501C519 475 470 478 430 493C389 508 355 541 336 571Q330 576 329 568Z"/><path fill="currentColor" d="M929 642C911 787 781 896 632 896C485 896 364 800 352 669C346 612 378 559 431 544C485 528 531 549 567 589C610 636 642 680 693 709C739 735 788 732 828 717C869 702 903 669 922 639Q928 634 929 642Z"/></svg><span class="wordmark">術波浪 Sulparang</span><small>AMBIENT · FREE</small></div><button class="mode">${this.dark?t.day:t.night}</button></div><div class="content"><div class="sounds">${t.sounds.map((name,i)=>`<div class="row"><button class="toggle" data-i="${i}" aria-label="${name}" aria-pressed="${this.players.has(i)}">${ICONS[i]}</button><div><div class="name">${name}</div><div class="controls"><input data-i="${i}" aria-label="${name} volume" type="range" min="0" max="100" value="${this.levels[i]}"><output>${this.levels[i]}%</output></div></div></div>`).join('')}</div><div class="scene"><sulparang-nature-scene></sulparang-nature-scene></div></div><p class="error" role="status"></p><p class="hint">${t.hint}</p></div>`;
+ </style><div class="card ${this.fullscreen?'fullscreen':''}" data-version="0.1.6"><div class="top"><div class="brand"><svg class="brand-mark" viewBox="296 282 662 662" aria-hidden="true"><path fill="currentColor" d="M329 568C347 423 477 314 626 314C773 314 894 410 906 541C912 598 880 651 827 666C773 682 727 661 691 621C648 574 616 530 565 501C519 475 470 478 430 493C389 508 355 541 336 571Q330 576 329 568Z"/><path fill="currentColor" d="M929 642C911 787 781 896 632 896C485 896 364 800 352 669C346 612 378 559 431 544C485 528 531 549 567 589C610 636 642 680 693 709C739 735 788 732 828 717C869 702 903 669 922 639Q928 634 929 642Z"/></svg><span class="wordmark">術波浪 Sulparang</span><small>AMBIENT · FREE</small></div><button class="mode">${this.dark?t.day:t.night}</button></div><div class="content"><div class="sounds">${t.sounds.map((name,i)=>`<div class="row"><button class="toggle" data-i="${i}" aria-label="${name}" aria-pressed="${this.players.has(i)}">${ICONS[i]}</button><div><div class="name">${name}</div><div class="controls"><input data-i="${i}" aria-label="${name} volume" type="range" min="0" max="100" value="${this.levels[i]}"><output>${this.levels[i]}%</output></div></div></div>`).join('')}</div><div class="scene"><sulparang-nature-scene></sulparang-nature-scene></div></div><p class="error" role="status"></p><p class="hint">${t.hint}</p></div>`;
  this.shadowRoot.querySelectorAll('.toggle').forEach(b=>b.onclick=()=>this.toggle(Number(b.dataset.i)));
  this.shadowRoot.querySelectorAll('input').forEach(el=>el.oninput=()=>{const i=Number(el.dataset.i);this.levels[i]=Number(el.value);el.nextElementSibling.textContent=el.value+'%';const p=this.players.get(i);if(p?.audio)p.audio.volume=this.levels[i]/100;if(p?.gain)p.gain.gain.setTargetAtTime(this.levels[i]/100*.35,this.ctx.currentTime,.06);});
  this.shadowRoot.querySelector('.mode').onclick=()=>{this.dark=!this.dark;this.render();};this.paint();
