@@ -287,7 +287,7 @@ function attachSulparangMenu(card){
  if(!root||!main?.shadowRoot||!drawer?.shadowRoot)return ()=>{};
  const key=Symbol.for('sulparang.dashboard-menu.v1');
  if(main[key]){main[key].users.add(card);return ()=>main[key]?.release(card);}
- const users=new Set([card]),styles=[],titles=new Map();let visible=false,press=null,suppressUntil=0,ignoreDoubleUntil=0;
+ const users=new Set([card]),styles=[],titles=new Map();let visible=true,press=null,suppressUntil=0,ignoreDoubleUntil=0;
  const style=(parent,css)=>{const el=document.createElement('style');el.textContent=css;parent.append(el);styles.push(el);return el;};
  const sidebar=style(main.shadowRoot,''),layout=style(drawer.shadowRoot,''),header=style(root,'.main-title{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation;cursor:pointer}.main-title:focus-visible{outline:2px solid var(--primary-color);outline-offset:4px}');
  const apply=()=>{
@@ -298,7 +298,8 @@ function attachSulparangMenu(card){
   title.setAttribute('role','button');title.setAttribute('tabindex','0');title.setAttribute('aria-expanded',String(visible));
   title.title='Double-click / long press / Enter: menu · 더블클릭 또는 길게 누르기: 메뉴';
  };
- const toggle=()=>{visible=!visible;apply();if(visible){main.dispatchEvent(new CustomEvent('hass-dock-sidebar',{detail:{dock:'docked'},bubbles:true,composed:true}));if(drawer.getAttribute('type')==='modal')main.dispatchEvent(new CustomEvent('hass-toggle-menu',{bubbles:true,composed:true}));}};
+ const dock=()=>main.dispatchEvent(new CustomEvent('hass-dock-sidebar',{detail:{dock:'docked'},bubbles:true,composed:true}));
+ const toggle=()=>{visible=!visible;apply();if(visible){dock();if(drawer.getAttribute('type')==='modal')main.dispatchEvent(new CustomEvent('hass-toggle-menu',{bubbles:true,composed:true}));}};
  const target=e=>e.composedPath().find(el=>el?.matches?.('.main-title')&&el.getRootNode()===root);
  const cancel=()=>{if(press)clearTimeout(press.timer);press=null;};
  const down=e=>{if(!target(e)||e.button!==0||e.isPrimary===false){cancel();return;}cancel();press={id:e.pointerId,x:e.clientX,y:e.clientY};press.timer=setTimeout(()=>{press=null;suppressUntil=Date.now()+1200;ignoreDoubleUntil=suppressUntil;toggle();},800);};
@@ -311,7 +312,8 @@ function attachSulparangMenu(card){
  for(const [event,fn]of Object.entries(listeners))document.addEventListener(event,fn,true);
  window.addEventListener('blur',cancel);
  const observer=new MutationObserver(()=>{if(!root.querySelector('.main-title')?.hasAttribute('aria-expanded'))apply();});
- observer.observe(root,{childList:true,subtree:true});apply();
+ // Enter with the sidebar available; only an explicit title gesture hides it.
+ observer.observe(root,{childList:true,subtree:true});apply();dock();
  const release=owner=>{users.delete(owner);if(users.size)return;cancel();observer.disconnect();for(const [event,fn]of Object.entries(listeners))document.removeEventListener(event,fn,true);window.removeEventListener('blur',cancel);styles.forEach(el=>el.remove());for(const [el,attrs]of titles)for(const [k,v]of Object.entries(attrs)){if(v===null)el.removeAttribute(k);else el.setAttribute(k,v);}delete main[key];};
  main[key]={users,release};return ()=>release(card);
 }
@@ -349,7 +351,7 @@ class SulparangAmbient extends HTMLElement{
  .scene{position:relative;min-width:0;width:100%;aspect-ratio:4/3;align-self:stretch;height:100%;overflow:hidden;border:0;border-radius:18px}.scene sulparang-nature-scene{position:absolute;inset:0;width:100%;height:100%;min-height:0}
  .hint{margin:0;padding:18px 24px 24px;font-size:13px;color:#b1c6c9;line-height:1.6}.error{color:#ffbbab;padding:0 24px;font-size:14px}.error:empty{display:none}button:focus-visible,input:focus-visible{outline:3px solid #e8c386;outline-offset:3px}
  @container(max-width:740px){.top{padding:18px 16px}.content{grid-template-columns:1fr;gap:16px;padding:0 16px}.scene{order:-1;height:auto;align-self:start;border-radius:16px}.sounds{gap:10px;grid-template-rows:repeat(4,minmax(76px,auto))}.row{padding:10px 12px}.brand small{display:none}.brand-mark{width:30px;height:30px;flex-basis:30px}.wordmark{font-size:15px}.hint{padding:16px}.error{padding:0 16px}}
- </style><div class="card ${this.fullscreen?'fullscreen':''}" data-version="0.1.8"><div class="top"><div class="brand"><svg class="brand-mark" viewBox="296 282 662 662" aria-hidden="true"><path fill="currentColor" d="M329 568C347 423 477 314 626 314C773 314 894 410 906 541C912 598 880 651 827 666C773 682 727 661 691 621C648 574 616 530 565 501C519 475 470 478 430 493C389 508 355 541 336 571Q330 576 329 568Z"/><path fill="currentColor" d="M929 642C911 787 781 896 632 896C485 896 364 800 352 669C346 612 378 559 431 544C485 528 531 549 567 589C610 636 642 680 693 709C739 735 788 732 828 717C869 702 903 669 922 639Q928 634 929 642Z"/></svg><span class="wordmark">術波浪 Sulparang</span><small>AMBIENT · FREE</small></div><button class="mode">${this.dark?t.day:t.night}</button></div><div class="content"><div class="sounds">${t.sounds.map((name,i)=>`<div class="row"><button class="toggle" data-i="${i}" aria-label="${name}" aria-pressed="${this.players.has(i)}">${ICONS[i]}</button><div><div class="name">${name}</div><div class="controls"><input data-i="${i}" aria-label="${name} volume" type="range" min="0" max="100" value="${this.levels[i]}"><output>${this.levels[i]}%</output></div></div></div>`).join('')}</div><div class="scene"><sulparang-nature-scene></sulparang-nature-scene></div></div><p class="error" role="status"></p><p class="hint">${t.hint}</p></div>`;
+ </style><div class="card ${this.fullscreen?'fullscreen':''}" data-version="0.1.9"><div class="top"><div class="brand"><svg class="brand-mark" viewBox="296 282 662 662" aria-hidden="true"><path fill="currentColor" d="M329 568C347 423 477 314 626 314C773 314 894 410 906 541C912 598 880 651 827 666C773 682 727 661 691 621C648 574 616 530 565 501C519 475 470 478 430 493C389 508 355 541 336 571Q330 576 329 568Z"/><path fill="currentColor" d="M929 642C911 787 781 896 632 896C485 896 364 800 352 669C346 612 378 559 431 544C485 528 531 549 567 589C610 636 642 680 693 709C739 735 788 732 828 717C869 702 903 669 922 639Q928 634 929 642Z"/></svg><span class="wordmark">術波浪 Sulparang</span><small>AMBIENT · FREE</small></div><button class="mode">${this.dark?t.day:t.night}</button></div><div class="content"><div class="sounds">${t.sounds.map((name,i)=>`<div class="row"><button class="toggle" data-i="${i}" aria-label="${name}" aria-pressed="${this.players.has(i)}">${ICONS[i]}</button><div><div class="name">${name}</div><div class="controls"><input data-i="${i}" aria-label="${name} volume" type="range" min="0" max="100" value="${this.levels[i]}"><output>${this.levels[i]}%</output></div></div></div>`).join('')}</div><div class="scene"><sulparang-nature-scene></sulparang-nature-scene></div></div><p class="error" role="status"></p><p class="hint">${t.hint}</p></div>`;
  this.shadowRoot.querySelectorAll('.toggle').forEach(b=>b.onclick=()=>this.toggle(Number(b.dataset.i)));
  this.shadowRoot.querySelectorAll('input').forEach(el=>el.oninput=()=>{const i=Number(el.dataset.i);this.levels[i]=Number(el.value);el.nextElementSibling.textContent=el.value+'%';const p=this.players.get(i);if(p?.audio)p.audio.volume=this.levels[i]/100;if(p?.gain)p.gain.gain.setTargetAtTime(this.levels[i]/100*.35,this.ctx.currentTime,.06);});
  this.shadowRoot.querySelector('.mode').onclick=()=>{this.dark=!this.dark;this.render();};this.paint();

@@ -1,4 +1,4 @@
-# Sulparang Ambient Free 0.1.8
+# Sulparang Ambient Free 0.1.9
 
 ## Instala con la URL del repositorio en HACS
 
@@ -68,7 +68,7 @@ Usa Samba, Studio Code Server u otra herramienta para copiar la carpeta completa
 Activa el modo avanzado en tu perfil. Abre Ajustes → Paneles → menú superior derecho → Recursos. Añade esta URL y selecciona Módulo JavaScript.
 
 ```
-/local/sulparang-ambient/sulparang-ambient.js?v=0.1.8
+/local/sulparang-ambient/sulparang-ambient.js?v=0.1.9
 ```
 
 ## 4. Añade la tarjeta
@@ -104,4 +104,4 @@ La edición gratuita reproduce en el navegador actual. No incluye altavoces remo
 
 Las animaciones respetan la preferencia de movimiento reducido del dispositivo. Añade `motion: true` para activarlas o `motion: false` para desactivarlas.
 
-En un PC, haz doble clic en el título de Home Assistant; en una pantalla táctil, mantenlo pulsado durante 0,8 segundos para mostrar u ocultar el menú. También puedes usar Intro o Espacio.
+La barra lateral permanece visible al abrir Sulparang. En un PC, haz doble clic en el título de Home Assistant; en una pantalla táctil, mantenlo pulsado durante 0,8 segundos para mostrar u ocultar el menú. También puedes usar Intro o Espacio.

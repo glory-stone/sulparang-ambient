@@ -1,4 +1,4 @@
-# Sulparang Ambient Free 0.1.8
+# Sulparang Ambient Free 0.1.9
 
 ## HACS にリポジトリ URL を追加してインストール
 
@@ -68,7 +68,7 @@ Samba や Studio Code Server などでフォルダー全体を下記にコピー
 プロフィールで詳細モードを有効にし、設定 → ダッシュボード → 右上メニュー → リソースを開きます。下記 URL を追加し、JavaScript モジュールを選びます。
 
 ```
-/local/sulparang-ambient/sulparang-ambient.js?v=0.1.8
+/local/sulparang-ambient/sulparang-ambient.js?v=0.1.9
 ```
 
 ## 4. カードを追加
@@ -104,4 +104,4 @@ language: ja
 
 アニメーションは端末の動きを減らす設定に従います。カードに `motion: true` を追加すると有効、`motion: false` で無効になります。
 
-PCでは Home Assistant 上部のタイトルをダブルクリック、タッチ画面では0.8秒長押しするとメニューを表示・非表示にできます。Enter またはスペースキーでも切り替えられます。
+Sulparang を開くとサイドバーが表示されます。PCでは Home Assistant 上部のタイトルをダブルクリック、タッチ画面では0.8秒長押しするとメニューを表示・非表示にできます。Enter またはスペースキーでも切り替えられます。

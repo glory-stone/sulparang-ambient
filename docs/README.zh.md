@@ -1,4 +1,4 @@
-# Sulparang Ambient Free 0.1.8
+# Sulparang Ambient Free 0.1.9
 
 ## 通过 HACS 仓库地址安装
 
@@ -68,7 +68,7 @@ language: zh
 在个人资料中启用高级模式。打开设置 → 仪表盘 → 右上角菜单 → 资源，添加以下 URL，类型选择 JavaScript 模块。
 
 ```
-/local/sulparang-ambient/sulparang-ambient.js?v=0.1.8
+/local/sulparang-ambient/sulparang-ambient.js?v=0.1.9
 ```
 
 ## 4. 添加卡片
@@ -104,4 +104,4 @@ language: zh
 
 动画默认遵循设备的减少动态效果设置。在卡片中添加 `motion: true` 可手动开启，`motion: false` 可关闭。
 
-在电脑上双击 Home Assistant 顶部标题，或在触摸屏上长按 0.8 秒，可显示或隐藏菜单，也可使用 Enter 或空格键。
+打开 Sulparang 时会显示侧边栏。在电脑上双击 Home Assistant 顶部标题，或在触摸屏上长按 0.8 秒，可显示或隐藏菜单，也可使用 Enter 或空格键。

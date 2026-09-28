@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.9 — 2026-09-28
+
+- Keep the Home Assistant sidebar visible when entering Sulparang or returning from another dashboard.
+- Hide or show it only through the existing title double-click, touch hold or keyboard controls.
+
+
 ## 0.1.8 — 2026-09-28
 
 - Double-click the Home Assistant dashboard title on a PC to fully hide or show the sidebar.
