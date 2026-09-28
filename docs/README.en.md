@@ -1,4 +1,4 @@
-# Sulparang Ambient Free 0.1.7
+# Sulparang Ambient Free 0.1.8
 
 ## Install with a repository URL in HACS
 
@@ -68,7 +68,7 @@ Use Samba, Studio Code Server or another file-transfer tool to copy the whole fo
 Enable Advanced mode in your profile. Open Settings → Dashboards → top-right menu → Resources. Add this URL and choose JavaScript module.
 
 ```
-/local/sulparang-ambient/sulparang-ambient.js?v=0.1.7
+/local/sulparang-ambient/sulparang-ambient.js?v=0.1.8
 ```
 
 ## 4. Add the card
@@ -104,4 +104,4 @@ This free edition plays in the browser you are using. Remote speakers, radio, ho
 
 Animations follow the device reduced-motion preference. Add `motion: true` to explicitly enable them, or `motion: false` to disable them.
 
-Hold the Home Assistant dashboard title for 0.8 seconds to show or hide the menu. Enter or Space also toggles it.
+Double-click the Home Assistant dashboard title on a PC, or hold it for 0.8 seconds on a touchscreen, to show or hide the menu. Enter or Space also toggles it.

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.8 — 2026-09-28
+
+- Double-click the Home Assistant dashboard title on a PC to fully hide or show the sidebar.
+- Keep the 800 ms touch hold and keyboard controls; prevent a hold followed by a double-click from toggling twice.
+
+
 ## 0.1.7 — 2026-09-28
 
 - Recalculate the Home Assistant toolbar width when the sidebar is shown or hidden.

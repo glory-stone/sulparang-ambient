@@ -6,7 +6,7 @@
 
 A free Home Assistant dashboard card for mixing ambient sounds with day/night nature scenes.
 
-[Live demo](https://sulparang.com/?lang=en#experience) · [Website](https://sulparang.com/) · [Manual-install ZIP](https://sulparang.com/downloads/sulparang-ambient-free-0.1.7.zip)
+[Live demo](https://sulparang.com/?lang=en#experience) · [Website](https://sulparang.com/) · [Manual-install ZIP](https://sulparang.com/downloads/sulparang-ambient-free-0.1.8.zip)
 
 ## Installation guides
 
@@ -52,10 +52,10 @@ system monitoring, payments or paid features are included.
 
 ## Manual installation
 
-Download the [installation ZIP](https://sulparang.com/downloads/sulparang-ambient-free-0.1.7.zip),
+Download the [installation ZIP](https://sulparang.com/downloads/sulparang-ambient-free-0.1.8.zip),
 or copy all three files from `dist/` into `/config/www/sulparang-ambient/`.
 Keep `rain.mp3` and `fire.mp3` beside `sulparang-ambient.js`.
-Register `/local/sulparang-ambient/sulparang-ambient.js?v=0.1.7` as a JavaScript module,
+Register `/local/sulparang-ambient/sulparang-ambient.js?v=0.1.8` as a JavaScript module,
 then add the card configuration above. See the translated guides for full instructions.
 
 For a full-screen panel dashboard, add `fullscreen: true` to the card configuration.
@@ -75,6 +75,6 @@ not affiliated with Home Assistant.
 
 Animations follow the device reduced-motion preference. Add `motion: true` to explicitly enable them, or `motion: false` to disable them.
 
-Home Assistant 상단 제목을 0.8초 길게 누르면 메뉴를 표시하거나 숨깁니다. 키보드 Enter 또는 Space로도 전환할 수 있습니다.
+PC에서는 Home Assistant 상단 제목을 더블클릭하고, 터치 화면에서는 0.8초 길게 누르면 메뉴를 표시하거나 숨깁니다. 키보드 Enter 또는 Space로도 전환할 수 있습니다.
 
-Hold the Home Assistant dashboard title for 0.8 seconds to show or hide the menu. Enter or Space also toggles it.
+Double-click the Home Assistant dashboard title on a PC, or hold it for 0.8 seconds on a touchscreen, to show or hide the menu. Enter or Space also toggles it.

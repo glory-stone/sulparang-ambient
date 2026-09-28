@@ -9,7 +9,7 @@ export function attachSulparangMenu(card){
  if(!root||!main?.shadowRoot||!drawer?.shadowRoot)return ()=>{};
  const key=Symbol.for('sulparang.dashboard-menu.v1');
  if(main[key]){main[key].users.add(card);return ()=>main[key]?.release(card);}
- const users=new Set([card]),styles=[],titles=new Map();let visible=false,press=null,suppressUntil=0;
+ const users=new Set([card]),styles=[],titles=new Map();let visible=false,press=null,suppressUntil=0,ignoreDoubleUntil=0;
  const style=(parent,css)=>{const el=document.createElement('style');el.textContent=css;parent.append(el);styles.push(el);return el;};
  const sidebar=style(main.shadowRoot,''),layout=style(drawer.shadowRoot,''),header=style(root,'.main-title{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation;cursor:pointer}.main-title:focus-visible{outline:2px solid var(--primary-color);outline-offset:4px}');
  const apply=()=>{
@@ -18,17 +18,18 @@ export function attachSulparangMenu(card){
   const title=root.querySelector('.main-title');if(!title)return;
   if(!titles.has(title))titles.set(title,Object.fromEntries(['role','tabindex','aria-expanded','title'].map(k=>[k,title.getAttribute(k)])));
   title.setAttribute('role','button');title.setAttribute('tabindex','0');title.setAttribute('aria-expanded',String(visible));
-  title.title='Long press / Enter: menu · 길게 누르기: 메뉴';
+  title.title='Double-click / long press / Enter: menu · 더블클릭 또는 길게 누르기: 메뉴';
  };
  const toggle=()=>{visible=!visible;apply();if(visible){main.dispatchEvent(new CustomEvent('hass-dock-sidebar',{detail:{dock:'docked'},bubbles:true,composed:true}));if(drawer.getAttribute('type')==='modal')main.dispatchEvent(new CustomEvent('hass-toggle-menu',{bubbles:true,composed:true}));}};
  const target=e=>e.composedPath().find(el=>el?.matches?.('.main-title')&&el.getRootNode()===root);
  const cancel=()=>{if(press)clearTimeout(press.timer);press=null;};
- const down=e=>{if(!target(e)||e.button!==0||e.isPrimary===false){cancel();return;}cancel();press={id:e.pointerId,x:e.clientX,y:e.clientY};press.timer=setTimeout(()=>{press=null;suppressUntil=Date.now()+1200;toggle();},800);};
+ const down=e=>{if(!target(e)||e.button!==0||e.isPrimary===false){cancel();return;}cancel();press={id:e.pointerId,x:e.clientX,y:e.clientY};press.timer=setTimeout(()=>{press=null;suppressUntil=Date.now()+1200;ignoreDoubleUntil=suppressUntil;toggle();},800);};
  const move=e=>{if(press&&e.pointerId===press.id&&Math.hypot(e.clientX-press.x,e.clientY-press.y)>12)cancel();};
  const click=e=>{if(target(e)&&Date.now()<suppressUntil){e.preventDefault();e.stopImmediatePropagation();suppressUntil=0;}};
  const context=e=>{if(target(e))e.preventDefault();};
+ const dblclick=e=>{if(!target(e)||e.button!==0)return;e.preventDefault();e.stopImmediatePropagation();cancel();if(e.pointerType==='touch'||e.sourceCapabilities?.firesTouchEvents||Date.now()<ignoreDoubleUntil)return;toggle();};
  const keydown=e=>{if(target(e)&&(e.key==='Enter'||e.key===' ')&&!e.repeat){e.preventDefault();cancel();toggle();}};
- const listeners={pointerdown:down,pointermove:move,pointerup:cancel,pointercancel:cancel,click,contextmenu:context,keydown};
+ const listeners={pointerdown:down,pointermove:move,pointerup:cancel,pointercancel:cancel,click,dblclick,contextmenu:context,keydown};
  for(const [event,fn]of Object.entries(listeners))document.addEventListener(event,fn,true);
  window.addEventListener('blur',cancel);
  const observer=new MutationObserver(()=>{if(!root.querySelector('.main-title')?.hasAttribute('aria-expanded'))apply();});

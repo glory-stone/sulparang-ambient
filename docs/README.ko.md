@@ -1,4 +1,4 @@
-# Sulparang Ambient Free 0.1.7
+# Sulparang Ambient Free 0.1.8
 
 ## HACS에서 저장소 주소로 설치
 
@@ -68,7 +68,7 @@ Samba 또는 Studio Code Server 등 파일을 복사할 수 있는 도구로 아
 프로필에서 고급 모드를 켜고 설정 → 대시보드 → 우측 상단 메뉴 → 리소스를 엽니다. 아래 URL을 추가하고 유형은 JavaScript 모듈을 선택합니다.
 
 ```
-/local/sulparang-ambient/sulparang-ambient.js?v=0.1.7
+/local/sulparang-ambient/sulparang-ambient.js?v=0.1.8
 ```
 
 ## 4. 대시보드에 카드 추가
@@ -104,4 +104,4 @@ language: ko
 
 애니메이션은 기기의 동작 줄이기 설정을 따릅니다. 카드에 `motion: true`를 추가하면 직접 켤 수 있고, `motion: false`는 끕니다.
 
-Home Assistant 상단 제목을 0.8초 길게 누르면 메뉴를 표시하거나 숨깁니다. 키보드 Enter 또는 Space로도 전환할 수 있습니다.
+PC에서는 Home Assistant 상단 제목을 더블클릭하고, 터치 화면에서는 0.8초 길게 누르면 메뉴를 표시하거나 숨깁니다. 키보드 Enter 또는 Space로도 전환할 수 있습니다.
